@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Sparkles, Award, ArrowUpRight, MessageSquare, Gauge, Check } from 'lucide-react';
+import { trackEvent } from '../services/leadService';
 
 interface HeroProps {
   onOpenBooking: () => void;
@@ -8,7 +9,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
   return (
-    <section className="relative min-h-[92vh] flex items-center bg-[#08090B] overflow-hidden">
+    <section className="relative min-h-[92vh] flex items-center bg-[#07080A] overflow-hidden">
       {/* Background Studio Visual with Precision Gradient Vignette */}
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
@@ -18,12 +19,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       >
         <img
           src="/hero-supercar.jpg"
-          alt="Porsche GT3 inside Exotic Car Detailing Studio Ahmedabad"
+          alt="Luxury Supercar inside D Glossy Den Studio Vadodara"
+          fetchPriority="high"
           className="w-full h-full object-cover object-center brightness-60"
         />
-        {/* Dark luxury vignette overlay: strictly deep obsidian and graphite */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#08090B] via-[#08090B]/80 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#08090B] via-transparent to-[#08090B]/50" />
+        {/* Dark luxury vignette overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07080A] via-[#07080A]/85 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07080A] via-transparent to-[#07080A]/50" />
       </motion.div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
@@ -39,7 +41,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
             >
               <span className="w-1.5 h-1.5 bg-[#C5A059]" />
               <span className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#DEC07E]">
-                Certified Automotive Studio: Ahmedabad
+                Automotive Detailing Studio: Vadodara, Gujarat
               </span>
             </motion.div>
 
@@ -48,9 +50,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-cinzel text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F5F5F7] leading-[1.2] sm:leading-[1.15]"
+              className="font-cinzel text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#F5F5F7] leading-[1.15]"
             >
-              Certified Paint Protection Film & Multi-Layer Ceramic Coatings
+              D Glossy Den <span className="gold-gradient-text block text-2xl sm:text-4xl lg:text-5xl font-semibold mt-2">Certified PPF & 9H Ceramic Studio</span>
             </motion.h1>
 
             {/* Subtitle: High-Technical Detailing Value */}
@@ -60,10 +62,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-[#B5B5BE] font-normal leading-relaxed max-w-2xl"
             >
-              Engineered paint restoration, self-healing optical TPU film, and 9H nanocoatings for sports, luxury, and exotic automobiles. Applied inside a dust-free, climate-controlled detailing bay.
+              Engineered paint restoration, self-healing optical TPU film, and 9H nanocoatings for luxury automobiles in Vadodara. Applied inside our dust-controlled cleanroom bay with computer-cut templates.
             </motion.p>
 
-            {/* Dual Action CTAs: Crisp Architectural Styling */}
+            {/* Dual Action CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -73,33 +75,46 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
               <motion.button
                 whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(197, 160, 89, 0.3)' }}
                 whileTap={{ y: 0 }}
-                onClick={onOpenBooking}
+                onClick={() => {
+                  trackEvent('cta_click', 'Hero Request Vehicle Estimate');
+                  onOpenBooking();
+                }}
                 className="btn-luxury-primary cursor-pointer text-center w-full sm:w-auto"
               >
-                Request Vehicle Estimate
+                Request Free Quote
                 <ArrowUpRight className="w-4 h-4 ml-1" />
               </motion.button>
+
               <motion.a
                 whileHover={{ y: -2 }}
                 whileTap={{ y: 0 }}
-                href="https://wa.me/917435010050?text=Hello%20Exotic%20Car%20Detailing%20Studio%2C%20I%20would%20like%20a%20quote%20for%20my%20vehicle"
+                href="https://wa.me/919825014820?text=Hello%20D%20Glossy%20Den%20Vadodara%2C%20I%20would%20like%20a%20quote%20for%20my%20vehicle"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent('whatsapp_click', 'Hero WhatsApp Quick Quote')}
                 className="btn-luxury-secondary text-center w-full sm:w-auto"
               >
                 <MessageSquare className="w-4 h-4 text-[#25D366]" />
-                WhatsApp Quick Quote
+                WhatsApp Consultation
               </motion.a>
             </motion.div>
 
-            {/* Interactive 3D POV Jump Pill */}
-            <div className="mt-4">
+            {/* Interactive Jump Links */}
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              <a
+                href="#gallery"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#12141A]/90 border border-[#C5A059]/30 text-[11px] font-semibold text-[#DEC07E] hover:border-[#C5A059] transition-all"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span>See Real Before & After Results ↓</span>
+              </a>
+
               <a
                 href="#car-pov"
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#12141A]/90 border border-[#C5A059]/30 text-[11px] font-semibold text-[#DEC07E] hover:border-[#C5A059] transition-all"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#12141A]/90 border border-white/10 text-[11px] font-semibold text-[#B5B5BE] hover:text-white hover:border-[#C5A059] transition-all"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse" />
-                <span>Explore 3D Cockpit POV & Beading Simulator ↓</span>
+                <span>3D Bay Cockpit POV & Beading Simulator ↓</span>
               </a>
             </div>
 
@@ -113,23 +128,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
               <div className="p-2.5 sm:p-3 bg-[#101217]/80 border border-white/5 rounded">
                 <div className="flex items-center gap-1 sm:gap-1.5 text-[#C5A059] mb-1">
                   <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold truncate">10-Year</span>
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold truncate">200 Micron</span>
                 </div>
-                <p className="text-[10px] sm:text-xs text-[#9E9EA7] leading-tight">Film Warranty</p>
+                <p className="text-[10px] sm:text-xs text-[#9E9EA7] leading-tight">Self-Healing TPU</p>
               </div>
               <div className="p-2.5 sm:p-3 bg-[#101217]/80 border border-white/5 rounded">
                 <div className="flex items-center gap-1 sm:gap-1.5 text-[#C5A059] mb-1">
                   <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                   <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold truncate">9H Hardness</span>
                 </div>
-                <p className="text-[10px] sm:text-xs text-[#9E9EA7] leading-tight">Lab Tested</p>
+                <p className="text-[10px] sm:text-xs text-[#9E9EA7] leading-tight">Quartz Matrix</p>
               </div>
               <div className="p-2.5 sm:p-3 bg-[#101217]/80 border border-white/5 rounded">
                 <div className="flex items-center gap-1 sm:gap-1.5 text-[#C5A059] mb-1">
                   <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold truncate">ISO Grade</span>
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold truncate">Cleanroom</span>
                 </div>
-                <p className="text-[10px] sm:text-xs text-[#9E9EA7] leading-tight">Cleanroom</p>
+                <p className="text-[10px] sm:text-xs text-[#9E9EA7] leading-tight">Vadodara Bay</p>
               </div>
             </motion.div>
           </div>
@@ -140,55 +155,70 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              whileHover={{ rotateY: 5, rotateX: -3 }}
-              style={{ perspective: 1000 }}
-              className="luxury-card p-8 border border-[#C5A059]/40 relative overflow-hidden backdrop-blur-xl shadow-2xl transition-transform duration-300"
+              className="luxury-card p-7 border border-[#C5A059]/40 relative overflow-hidden backdrop-blur-xl"
             >
-              {/* Corner Accent */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#C5A059]/15 to-transparent pointer-events-none" />
-
-              <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
-                <div className="flex items-center gap-2">
-                  <Gauge className="w-5 h-5 text-[#C5A059]" />
-                  <span className="font-cinzel text-sm font-bold text-white tracking-wider">
-                    Studio Lab Standards
+              <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] animate-pulse" />
+                  <span className="text-xs uppercase tracking-widest font-bold text-white">
+                    Studio Intake Standards
                   </span>
                 </div>
-                <span className="text-[10px] uppercase font-bold text-[#25D366] px-2 py-0.5 bg-[#121A15] border border-[#25D366]/30">
-                  Active Facility
-                </span>
+                <span className="text-[10px] font-mono text-[#C5A059]">VADODARA / GJ06</span>
               </div>
 
-              <div className="space-y-4 text-xs">
-                <div className="p-3 bg-[#0B0D11] border border-white/5 flex justify-between items-center">
-                  <span className="text-[#9E9EA7]">Dust Filtration:</span>
-                  <span className="text-[#DEC07E] font-semibold">0.3 Micron Positive Pressure</span>
+              <div className="mt-5 space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#C5A059]/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-[#C5A059]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                      Ultrasonic Paint Depth Profiling
+                    </h3>
+                    <p className="text-xs text-[#9E9EA7] mt-0.5">
+                      Clear coat mapped across 24 panel checkpoints before polishing begins.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="p-3 bg-[#0B0D11] border border-white/5 flex justify-between items-center">
-                  <span className="text-[#9E9EA7]">Thermal Curing:</span>
-                  <span className="text-[#DEC07E] font-semibold">Short-Wave Infrared 70°C</span>
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#C5A059]/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-[#C5A059]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                      Laser Plotted Pattern Cutting
+                    </h3>
+                    <p className="text-xs text-[#9E9EA7] mt-0.5">
+                      Pre-cut software designs with deep wrapped edges. Zero razor blades on original paint.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="p-3 bg-[#0B0D11] border border-white/5 flex justify-between items-center">
-                  <span className="text-[#9E9EA7]">Optical TPU Film:</span>
-                  <span className="text-[#DEC07E] font-semibold">200 Micron High-Impact</span>
-                </div>
-
-                <div className="p-3 bg-[#0B0D11] border border-white/5 flex justify-between items-center">
-                  <span className="text-[#9E9EA7]">Inspection Lamps:</span>
-                  <span className="text-[#DEC07E] font-semibold">98 CRI Dual-Spectrum LED</span>
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#C5A059]/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-[#C5A059]" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                      Short-Wave IR Heat Curing
+                    </h3>
+                    <p className="text-xs text-[#9E9EA7] mt-0.5">
+                      Infrared baking ensures molecular quartz hardness before handover.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/5 space-y-2">
-                <div className="flex items-center gap-2 text-[11px] text-[#A0A0A9]">
-                  <Check className="w-3.5 h-3.5 text-[#C5A059]" />
-                  <span>Software cut templates: Zero razor blades on car paint</span>
+              <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-[#7A7A85] block">Location</span>
+                  <span className="text-xs font-bold text-white">Vadodara, Gujarat</span>
                 </div>
-                <div className="flex items-center gap-2 text-[11px] text-[#A0A0A9]">
-                  <Check className="w-3.5 h-3.5 text-[#C5A059]" />
-                  <span>Hydraulic scissor lifts for undercarriage preservation</span>
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-[#7A7A85] block">Inspection Slot</span>
+                  <span className="text-xs font-bold text-[#DEC07E]">Complimentary</span>
                 </div>
               </div>
             </motion.div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Sparkles, Layers, Disc, Check, ArrowRight } from 'lucide-react';
+import { trackEvent } from '../services/leadService';
 
 interface ServicesProps {
   onSelectService: (serviceName: string) => void;
@@ -10,12 +11,12 @@ const SERVICES = [
   {
     icon: Shield,
     title: 'Self-Healing Paint Protection Film',
-    badge: 'Flagship Service',
+    badge: 'Flagship Protection',
     description: 'High-clarity optical aliphatic TPU film engineered to withstand high-speed stone chips, gravel abrasion, road salt, and harsh UV exposure with instant heat-activated self-healing.',
     specs: [
       { label: 'Film Thickness', value: '8.0 Mil (200 Micron)' },
-      { label: 'Warranty', value: 'Up to 10 Years' },
-      { label: 'Curing Period', value: '48 Hours Climate Bay' }
+      { label: 'Warranty Tier', value: '5 to 10 Years' },
+      { label: 'Curing Bay', value: 'Climate Regulated' }
     ],
     features: [
       'Self-healing topcoat activated by sunlight or warm water',
@@ -23,7 +24,7 @@ const SERVICES = [
       'Computer pre-cut template fitment with wrapped edges',
       'Hydrophobic and anti-contamination surface'
     ],
-    whatsappMsg: 'Hi%2C%20I%20would%20like%20a%20quote%20for%20Paint%20Protection%20Film%20(PPF).'
+    whatsappMsg: 'Hello%20D%20Glossy%20Den%2C%20I%20would%20like%20a%20quote%20for%20Paint%20Protection%20Film%20(PPF)%20in%20Vadodara.'
   },
   {
     icon: Sparkles,
@@ -33,15 +34,15 @@ const SERVICES = [
     specs: [
       { label: 'Hardness Level', value: '9H Pencil Grade' },
       { label: 'Durability', value: '3 to 7 Years Protection' },
-      { label: 'Chemical Resistance', value: 'pH 2 to pH 12' }
+      { label: 'Chemical Shield', value: 'pH 2 to pH 12' }
     ],
     features: [
       '110-degree hydrophobic water droplet contact angle',
       'Deep optical gloss with candy-like mirror reflection',
-      'UV barrier against industrial fallout and bird droppings',
+      'UV barrier against industrial fallout and bug splatter etching',
       'Simplified maintenance wash with anti-static finish'
     ],
-    whatsappMsg: 'Hi%2C%20I%20would%20like%20a%20quote%20for%20Ceramic%20or%20Graphene%20Coating.'
+    whatsappMsg: 'Hello%20D%20Glossy%20Den%2C%20I%20would%20like%20a%20quote%20for%20Ceramic%20or%20Graphene%20Coating%20in%20Vadodara.'
   },
   {
     icon: Disc,
@@ -59,7 +60,7 @@ const SERVICES = [
       'Elimination of oxidation and etched water spots',
       'Flawless mirror foundation prior to PPF or ceramic coating'
     ],
-    whatsappMsg: 'Hi%2C%20I%20would%20like%20a%20quote%20for%20Paint%20Correction.'
+    whatsappMsg: 'Hello%20D%20Glossy%20Den%2C%20I%20would%20like%20a%20quote%20for%20Multi-Stage%20Paint%20Correction%20in%20Vadodara.'
   },
   {
     icon: Layers,
@@ -67,7 +68,7 @@ const SERVICES = [
     badge: 'Bespoke Care',
     description: 'Hospital-grade steam extraction, gentle pH-neutral cleaning, and matte ceramic conditioning for Napa, Merino, and Semi-Aniline leathers, Alcantara, and carbon cockpit trim.',
     specs: [
-      { label: 'Cabin Sanitization', value: 'Thermal Steam 160C' },
+      { label: 'Cabin Sanitization', value: 'Thermal Steam 160°C' },
       { label: 'Leather Finish', value: 'Factory Matte (No Gloss)' },
       { label: 'Protection Period', value: '12 Months Barrier' }
     ],
@@ -77,7 +78,7 @@ const SERVICES = [
       'Hydrophobic textile coating for carpets and floor mats',
       'Elimination of lingering odor without heavy synthetic masking'
     ],
-    whatsappMsg: 'Hi%2C%20I%20would%20like%20a%20quote%20for%20Interior%20Detailing.'
+    whatsappMsg: 'Hello%20D%20Glossy%20Den%2C%20I%20would%20like%20a%20quote%20for%20Interior%20Detailing%20in%20Vadodara.'
   }
 ];
 
@@ -96,15 +97,15 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
           <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-3">
             Core Detailing Programs
           </p>
-          <h2 className="font-cinzel text-3xl sm:text-4xl font-bold text-[#F5F5F7] tracking-tight">
+          <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F5F5F7] tracking-tight">
             Engineered Automotive Surface Protection
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#9E9EA7]">
-            Every treatment is executed under dual-spectrum inspection lights using certified chemicals and calibrated instrumentation.
+            Every treatment is executed inside our Vadodara studio bay under dual-spectrum high-CRI inspection lights using calibrated instrumentation.
           </p>
         </motion.div>
 
-        {/* Services Grid with 3D Hover Depth */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {SERVICES.map((service, idx) => {
             const Icon = service.icon;
@@ -167,18 +168,22 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                   <motion.button
                     whileHover={{ y: -1 }}
                     whileTap={{ y: 0 }}
-                    onClick={() => onSelectService(service.title)}
+                    onClick={() => {
+                      trackEvent('service_select', service.title);
+                      onSelectService(service.title);
+                    }}
                     className="btn-luxury-primary flex-1 text-center cursor-pointer text-xs"
                   >
-                    Select This Package
+                    Select This Program
                     <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </motion.button>
                   <motion.a
                     whileHover={{ y: -1 }}
                     whileTap={{ y: 0 }}
-                    href={`https://wa.me/917435010050?text=${service.whatsappMsg}`}
+                    href={`https://wa.me/919825014820?text=${service.whatsappMsg}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackEvent('whatsapp_click', `Service WhatsApp: ${service.title}`)}
                     className="btn-luxury-secondary text-xs text-center"
                   >
                     Quick Quote

@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Car
 } from 'lucide-react';
+import { trackEvent } from '../services/leadService';
 
 interface ChatbotWidgetProps {
   onOpenBooking?: () => void;
@@ -19,23 +20,25 @@ interface ChatbotWidgetProps {
 export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ onOpenBooking }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [selectedVehicle, setSelectedVehicle] = useState('Supercar / Luxury');
+  const [selectedVehicle, setSelectedVehicle] = useState('Luxury SUV / Sedan');
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     const query = message.trim() || `Inquiry for ${selectedVehicle} detailing package`;
     const encoded = encodeURIComponent(
-      `Hello Exotic Car Detailing Studio! I am reaching out via your website concierge.\n\nVehicle: ${selectedVehicle}\nMessage: ${query}`
+      `Hello D Glossy Den Vadodara! I am reaching out via your website concierge.\n\nVehicle: ${selectedVehicle}\nMessage: ${query}`
     );
-    window.open(`https://wa.me/917435010050?text=${encoded}`, '_blank');
+    trackEvent('whatsapp_click', 'Chatbot Custom Message Submit', selectedVehicle);
+    window.open(`https://wa.me/919825014820?text=${encoded}`, '_blank');
     setMessage('');
   };
 
   const handleQuickAction = (actionText: string) => {
     const encoded = encodeURIComponent(
-      `Hello Exotic Car Detailing Studio!\nVehicle Category: ${selectedVehicle}\nRequest: ${actionText}`
+      `Hello D Glossy Den Vadodara!\nVehicle Category: ${selectedVehicle}\nRequest: ${actionText}`
     );
-    window.open(`https://wa.me/917435010050?text=${encoded}`, '_blank');
+    trackEvent('whatsapp_click', `Chatbot Quick Action: ${actionText}`, selectedVehicle);
+    window.open(`https://wa.me/919825014820?text=${encoded}`, '_blank');
   };
 
   return (
@@ -69,7 +72,7 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ onOpenBooking }) =
                   </div>
                   <p className="text-[11px] text-[#A0A0A9] flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse" />
-                    Online • Ahmedabad Studio
+                    Online • Vadodara Studio
                   </p>
                 </div>
               </div>
@@ -87,20 +90,20 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ onOpenBooking }) =
               {/* Concierge Welcome Bubble */}
               <div className="bg-[#161922] border border-white/5 p-3.5 rounded-lg rounded-tl-none shadow-sm space-y-2">
                 <p className="text-[#E2E2E8] leading-relaxed">
-                  Welcome to <strong className="text-[#DEC07E]">Exotic Car Detailing Studio</strong>. Our certified specialists are ready to inspect, protect, or quote your vehicle.
+                  Welcome to <strong className="text-[#DEC07E]">D Glossy Den Vadodara</strong>. Our certified detailing technicians are ready to evaluate, protect, or quote your vehicle.
                 </p>
                 <p className="text-[#9E9EA7] text-[11px]">
-                  Select your vehicle segment for instant pricing & slot availability:
+                  Select your vehicle segment for instant pricing & bay availability:
                 </p>
               </div>
 
               {/* Segment Selector Chips */}
               <div className="grid grid-cols-2 gap-1.5">
                 {[
-                  'Supercar / GT3',
-                  'Luxury Sedan',
+                  'Sedan / Hatchback',
+                  'Compact / Mid SUV',
                   'Full-Size SUV',
-                  'Exotic / Vintage'
+                  'Luxury / Supercar'
                 ].map((vehicle) => (
                   <button
                     key={vehicle}
@@ -140,12 +143,13 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ onOpenBooking }) =
                   className="w-full py-2.5 px-3 bg-[#161822] hover:bg-[#1F2230] border border-white/10 text-[#DEC07E] rounded flex items-center gap-2 text-xs font-semibold transition-all cursor-pointer"
                 >
                   <Camera className="w-4 h-4 text-[#C5A059]" />
-                  <span>Send Photos for Damage / Swirl Inspection</span>
+                  <span>Send Photos for Swirl / Paint Inspection</span>
                 </button>
 
                 <div className="grid grid-cols-2 gap-2">
                   <a
-                    href="tel:+917435010050"
+                    href="tel:+919825014820"
+                    onClick={() => trackEvent('phone_click', 'Chatbot Call Button')}
                     className="py-2 px-2.5 bg-[#12141A] hover:bg-[#1A1D24] border border-white/10 text-[#F5F5F7] rounded flex items-center justify-center gap-1.5 text-xs font-medium transition-all"
                   >
                     <Phone className="w-3.5 h-3.5 text-[#C5A059]" />
@@ -214,7 +218,11 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ onOpenBooking }) =
         )}
 
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            const next = !isOpen;
+            setIsOpen(next);
+            if (next) trackEvent('cta_click', 'Open Chatbot Concierge');
+          }}
           className={`relative w-13 h-13 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 cursor-pointer ${
             isOpen
               ? 'bg-[#C5A059] text-black ring-4 ring-[#C5A059]/20'

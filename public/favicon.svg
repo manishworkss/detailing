@@ -1,7 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="14" fill="#0A0B0E"/>
-  <path d="M32 10 L50 20 L50 38 L32 54 L14 38 L14 20 Z" fill="none" stroke="#C5A059" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M32 17 L44 24 L44 36 L32 46 L20 36 L20 24 Z" fill="none" stroke="#C5A059" stroke-opacity="0.4" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M24 28 L40 28 L40 31 L27 31 L27 33 L38 33 L38 36 L27 36 L27 38 L40 38 L40 41 L24 41 Z" fill="#F5F5F7"/>
-  <circle cx="32" cy="18" r="2" fill="#C5A059"/>
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3E7C4" />
+      <stop offset="50%" stop-color="#C5A059" />
+      <stop offset="100%" stop-color="#8F7239" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#07080A" stroke="#C5A059" stroke-width="1.5"/>
+  <!-- Precision Shield Crest -->
+  <path d="M32 9 L51 18 L51 36 C51 46 43 53 32 57 C21 53 13 46 13 36 L13 18 Z" fill="#101217" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Inner Precision Accent -->
+  <path d="M32 15 L45 22 L45 35 C45 42 39 47 32 50 C25 47 19 42 19 35 L19 22 Z" fill="none" stroke="#C5A059" stroke-opacity="0.35" stroke-width="1.2"/>
+  <!-- Sharp Stylized D Emblem -->
+  <path d="M26 23 L34 23 C39 23 42 26 42 32 C42 38 39 41 34 41 L26 41 Z" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26 23 L26 41" stroke="#F5F5F7" stroke-width="3" stroke-linecap="round"/>
+  <!-- Diamond Sparkle Accent -->
+  <circle cx="32" cy="18" r="1.5" fill="#F5E5C9"/>
 </svg>

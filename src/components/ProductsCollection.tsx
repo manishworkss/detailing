@@ -1,17 +1,18 @@
 import React from 'react';
 import { Sparkles, MessageSquare } from 'lucide-react';
+import { trackEvent } from '../services/leadService';
 
 const PRODUCTS = [
   {
     category: 'Artisan Perfume',
-    name: 'Exotic Noir Cologne',
+    name: 'Glossy Den Noir Cologne',
     volume: '50ml Glass Atomizer',
     description: 'Bespoke automotive interior fragrance blending Tuscan leather, smoked oud, and crisp bergamot notes. Oil-based formula that will not stain upholstery.',
     features: ['Long-lasting 60-day longevity', 'Zero synthetic propellant', 'Luxury magnetic cap']
   },
   {
     category: 'Artisan Perfume',
-    name: 'Amber Royale Diffuser',
+    name: 'Amber Royale Cabin Diffuser',
     volume: 'Hanging Wood Diffuser',
     description: 'Natural beechwood diffusing cap with rich amber and vanilla bean notes for continuous cabin fragrance without harsh artificial chemicals.',
     features: ['Natural beechwood release', 'Refillable glass reservoir', 'Discreet rear-view mount']
@@ -20,7 +21,7 @@ const PRODUCTS = [
     category: 'Maintenance Care',
     name: 'Graphene Slick Detailer',
     volume: '500ml Spray Bottle',
-    description: 'Graphene-infused spray sealant for maintenance between washes. Removes light dust and boosts hydrophobicity on ceramic coatings.',
+    description: 'Graphene-infused spray sealant for maintenance between washes. Removes light dust and boosts hydrophobicity on ceramic coatings in Vadodara.',
     features: ['Safe on all PPF and coatings', 'Streak-free optical finish', 'Anti-static dust rejection']
   },
   {
@@ -48,18 +49,18 @@ const PRODUCTS = [
 
 export const ProductsCollection: React.FC = () => {
   return (
-    <section id="products" className="py-24 bg-[#0C0E12] border-t border-white/5 relative">
+    <section id="products" className="py-24 bg-[#0A0C10] border-t border-white/5 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-3">
-            Studio Collection
+            Studio Care Collection
           </p>
-          <h2 className="font-cinzel text-3xl sm:text-4xl font-bold text-[#F5F5F7] tracking-tight">
+          <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F5F5F7] tracking-tight">
             Artisan Car Perfumes & Maintenance Care
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#9E9EA7]">
-            Formulated specifically for maintained luxury vehicles. Available at our Ahmedabad studio or dispatched nationwide.
+            Formulated specifically for maintained luxury vehicles. Available at our Vadodara studio desk or dispatched across Gujarat.
           </p>
         </div>
 
@@ -101,10 +102,11 @@ export const ProductsCollection: React.FC = () => {
 
               {/* Action */}
               <a
-                href={`https://wa.me/917435010050?text=Hello%2C%20I%20would%20like%20to%20order%20the%20${encodeURIComponent(prod.name)}%20(${encodeURIComponent(prod.volume)}).`}
+                href={`https://wa.me/919825014820?text=Hello%20D%20Glossy%20Den%2C%20I%20would%20like%20to%20order%20the%20${encodeURIComponent(prod.name)}%20(${encodeURIComponent(prod.volume)}).`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-luxury-secondary w-full text-center text-xs py-2.5 flex items-center justify-center gap-2"
+                onClick={() => trackEvent('whatsapp_click', `Order Product: ${prod.name}`)}
+                className="btn-luxury-secondary w-full text-center text-xs py-2.5 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
                 Order via WhatsApp

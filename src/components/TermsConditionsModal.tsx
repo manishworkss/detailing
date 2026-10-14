@@ -11,13 +11,13 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({ isOp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-3xl max-h-[85vh] bg-[#101217] border border-[#C5A059]/40 overflow-y-auto p-6 sm:p-10 text-[#C5C5CD]">
+      <div className="relative w-full max-w-3xl max-h-[85vh] bg-[#101217] border border-[#C5A059]/40 overflow-y-auto p-6 sm:p-10 text-[#C5C5CD] shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
           <div className="flex items-center gap-2.5">
             <FileText className="w-5 h-5 text-[#C5A059]" />
             <h2 className="font-cinzel text-xl sm:text-2xl font-bold text-white">
-              Terms & Conditions
+              Terms & Service Conditions
             </h2>
           </div>
           <button
@@ -36,7 +36,7 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({ isOp
               1. Vehicle Intake & Condition Logging
             </h3>
             <p>
-              Prior to initiating any service, our master technicians perform a digital paint inspection and photographic inventory. Existing stone chips, bodywork dents, repainted panels, clear coat failure, and interior tears are logged with the owner. We reserve the right to decline treatment on structurally compromised paintwork.
+              Prior to initiating any service, our master technicians perform a digital paint inspection and photographic inventory. Existing stone chips, bodywork dents, repainted panels, clear coat failure, and interior tears are logged with the owner. We reserve the right to advise adjustments or decline treatment on structurally compromised paintwork.
             </p>
           </div>
 
@@ -45,34 +45,25 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({ isOp
               2. Paint Protection Film (PPF) Curing Protocol
             </h3>
             <p>
-              Newly installed Paint Protection Film requires up to 14 days to fully cure and evacuate moisture blisters depending on ambient temperatures. Clients must refrain from pressure washing, mechanical automatic car washes, or aggressive wiping for a minimum of 7 calendar days post delivery.
+              Newly installed Paint Protection Film requires up to 14 days to fully cure and evacuate moisture blisters depending on ambient temperatures. Clients must refrain from pressure washing or aggressive wiping for a minimum of 7 calendar days post delivery.
             </p>
           </div>
 
           <div>
             <h3 className="font-cinzel text-sm font-bold text-white mb-2">
-              3. Ceramic Coating Warranty Validity
+              3. Ceramic Coating Maintenance & Warranty Support
             </h3>
             <p>
-              Our 9H Ceramic and Nano-Graphene Coating warranties cover chemical stain defense, premature oxidation, and loss of hydrophobic gloss under standard driving conditions. Maintenance must follow pH-neutral washing standards. An annual decontamination decontamination inspection at our Ahmedabad studio is required to maintain extended multi-year guarantees.
+              Our 9H Ceramic and Nano-Graphene Coating warranties cover chemical stain defense, premature oxidation, and loss of hydrophobic gloss under standard driving conditions. Maintenance must follow pH-neutral washing standards. An annual decontamination inspection at our Vadodara studio is recommended to maintain optimal hydrophobic performance.
             </p>
           </div>
 
           <div>
             <h3 className="font-cinzel text-sm font-bold text-white mb-2">
-              4. Personal Belongings & Valuables
+              4. Payment & Delivery Walkaround
             </h3>
             <p>
-              Vehicle owners are requested to remove personal effects, electronic devices, toll tags, and high-value items from glove boxes and luggage compartments prior to drop-off. The studio assumes no liability for unregistered items left inside unattended vehicles.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="font-cinzel text-sm font-bold text-white mb-2">
-              5. Vehicle Handover & Settlement
-            </h3>
-            <p>
-              Work orders must be settled in full upon completion of final inspection. Vehicles parked on studio premises exceeding 48 hours following completion notice without prior written agreement may incur indoor bay storage fees.
+              Full payment is due upon successful completion of the service and after the joint vehicle delivery walkaround under our studio inspection lighting tunnel.
             </p>
           </div>
         </div>
@@ -81,7 +72,7 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({ isOp
         <div className="mt-8 pt-6 border-t border-white/10 flex justify-end">
           <button
             onClick={onClose}
-            className="btn-luxury-secondary text-xs cursor-pointer"
+            className="btn-luxury-primary text-xs cursor-pointer"
           >
             Acknowledge & Close
           </button>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Send, MessageSquare, CheckCircle, Shield } from 'lucide-react';
+import { Send, MessageSquare, CheckCircle, Shield, AlertCircle, Loader2, Calendar } from 'lucide-react';
+import { saveLead, trackEvent } from '../services/leadService';
+import { Lead } from '../types';
 
 interface BookingContactProps {
   preselectedService?: string;
@@ -12,9 +14,16 @@ export const BookingContact: React.FC<BookingContactProps> = ({ preselectedServi
     email: '',
     vehicleModel: '',
     service: 'Paint Protection Film (PPF)',
-    notes: ''
+    preferredDate: '',
+    vadodaraArea: 'Gotri / Alkapuri',
+    notes: '',
+    consent: true,
+    honeypot: '' // Spam protection honeypot
   });
-  const [submitted, setSubmitted] = useState(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [submittedLead, setSubmittedLead] = useState<Lead | null>(null);
 
   useEffect(() => {
     if (preselectedService) {
@@ -22,66 +31,147 @@ export const BookingContact: React.FC<BookingContactProps> = ({ preselectedServi
     }
   }, [preselectedService]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setErrorMessage(null);
+
+    // Spam Honeypot check
+    if (formData.honeypot) {
+      console.warn('Spam submission detected and blocked.');
+      return;
+    }
+
+    if (!formData.consent) {
+      setErrorMessage('Please check the consent box to allow us to contact you regarding your vehicle estimate.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    trackEvent('form_start', 'Booking Form Submit Click', formData.service);
+
+    const result = await saveLead({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      vehicleModel: formData.vehicleModel,
+      service: formData.service,
+      preferredDate: formData.preferredDate,
+      vadodaraArea: formData.vadodaraArea,
+      notes: formData.notes
+    });
+
+    setIsSubmitting(false);
+
+    if (result.success && result.lead) {
+      setSubmittedLead(result.lead);
+    } else {
+      setErrorMessage(result.error || 'Submission failed. Please call or WhatsApp our studio directly.');
+    }
   };
 
   const generateWhatsAppUrl = () => {
-    const text = `Hello Exotic Car Studio,%0A%0AName: ${encodeURIComponent(formData.name || 'Vehicle Owner')}%0APhone: ${encodeURIComponent(formData.phone || 'Not provided')}%0AVehicle: ${encodeURIComponent(formData.vehicleModel || 'Luxury Vehicle')}%0AService Required: ${encodeURIComponent(formData.service)}%0ANotes: ${encodeURIComponent(formData.notes || 'Interested in consultation')}`;
-    return `https://wa.me/917435010050?text=${text}`;
+    const leadId = submittedLead?.id || 'Direct';
+    const text = `Hello D Glossy Den Vadodara!%0A%0A*Reference Lead:* ${leadId}%0A*Name:* ${encodeURIComponent(formData.name || 'Vehicle Owner')}%0A*Phone:* ${encodeURIComponent(formData.phone)}%0A*Vehicle:* ${encodeURIComponent(formData.vehicleModel)}%0A*Service:* ${encodeURIComponent(formData.service)}%0A*Vadodara Area:* ${encodeURIComponent(formData.vadodaraArea)}%0A*Preferred Date:* ${encodeURIComponent(formData.preferredDate || 'Earliest available')}%0A*Notes:* ${encodeURIComponent(formData.notes || 'Please provide consultation')}`;
+    return `https://wa.me/919825014820?text=${text}`;
   };
 
   return (
-    <section id="booking" className="py-24 bg-[#0C0E12] border-t border-white/5 relative">
+    <section id="booking" className="py-24 bg-[#0A0C10] border-t border-white/5 relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-3">
-            Intake Consultation
+            Complimentary Paint Intake & Quote
           </p>
-          <h2 className="font-cinzel text-3xl sm:text-4xl font-bold text-[#F5F5F7] tracking-tight">
-            Request Vehicle Assessment & Quote
+          <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F5F5F7] tracking-tight">
+            Schedule Vehicle Assessment
           </h2>
-          <p className="mt-4 text-sm text-[#9E9EA7]">
-            Provide your vehicle details for a tailored protection program or connect directly with our master detailer.
+          <p className="mt-4 text-sm text-[#9E9EA7] max-w-xl mx-auto">
+            Provide your vehicle specifications below for a bespoke protection program. We respect your privacy and will never share your contact details.
           </p>
         </div>
 
-        <div className="luxury-card p-8 sm:p-12">
-          {submitted ? (
-            <div className="text-center py-12 space-y-4">
-              <div className="w-14 h-14 bg-[#1A261D] border border-[#25D366] text-[#25D366] flex items-center justify-center mx-auto">
-                <CheckCircle className="w-8 h-8" />
+        <div className="luxury-card p-6 sm:p-12 border border-[#C5A059]/30">
+          {submittedLead ? (
+            <div className="text-center py-10 space-y-5">
+              <div className="w-16 h-16 bg-[#13271A] border-2 border-[#25D366] text-[#25D366] flex items-center justify-center mx-auto rounded-full">
+                <CheckCircle className="w-9 h-9" />
               </div>
-              <h3 className="font-cinzel text-2xl font-bold text-white">
-                Assessment Request Received
+              <h3 className="font-cinzel text-2xl sm:text-3xl font-bold text-white">
+                Assessment Request Confirmed
               </h3>
-              <p className="text-sm text-[#9E9EA7] max-w-md mx-auto">
-                Our studio manager will review your vehicle specifications and contact you within 2 business hours.
+              <p className="text-xs text-[#DEC07E] font-mono">
+                Booking Reference: {submittedLead.id}
               </p>
-              <div className="pt-4">
+              <p className="text-sm text-[#A0A0A9] max-w-md mx-auto leading-relaxed">
+                Thank you, <strong className="text-white">{submittedLead.name}</strong>. Our studio manager in Vadodara has received your inquiry for your <strong className="text-white">{submittedLead.vehicleModel}</strong>. We will review our bay schedule and contact you shortly.
+              </p>
+
+              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
                   href={generateWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-luxury-primary text-xs"
+                  onClick={() => trackEvent('whatsapp_click', 'Post-Submission WhatsApp Expedite')}
+                  className="btn-luxury-primary text-xs w-full sm:w-auto"
                 >
-                  <MessageSquare className="w-4 h-4 mr-1 text-[#08090B]" />
+                  <MessageSquare className="w-4 h-4 mr-1 text-black" />
                   Expedite on WhatsApp Now
                 </a>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubmittedLead(null);
+                    setFormData({
+                      name: '',
+                      phone: '',
+                      email: '',
+                      vehicleModel: '',
+                      service: 'Paint Protection Film (PPF)',
+                      preferredDate: '',
+                      vadodaraArea: 'Gotri / Alkapuri',
+                      notes: '',
+                      consent: true,
+                      honeypot: ''
+                    });
+                  }}
+                  className="text-xs text-[#9E9EA7] hover:text-white underline cursor-pointer"
+                >
+                  Submit Another Vehicle
+                </button>
               </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Spam Honeypot Field */}
+              <input
+                type="text"
+                name="company_fax"
+                value={formData.honeypot}
+                onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
+              {/* Error Message Alert */}
+              {errorMessage && (
+                <div className="p-4 bg-red-950/60 border border-red-500/50 text-red-200 text-xs flex items-center gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {/* Name and Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
-                    Full Name *
+                    Full Name <span className="text-[#C5A059]">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Rajesh Shah"
+                    placeholder="e.g. Hardik Patel"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full bg-[#08090B] border border-white/10 px-4 py-3.5 text-sm text-white placeholder-[#64646D] focus:border-[#C5A059] focus:outline-none"
@@ -90,12 +180,12 @@ export const BookingContact: React.FC<BookingContactProps> = ({ preselectedServi
 
                 <div>
                   <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
-                    Contact Phone Number *
+                    WhatsApp / Mobile Number <span className="text-[#C5A059]">*</span>
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="+91 98765 43210"
+                    placeholder="e.g. 98250 14820"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full bg-[#08090B] border border-white/10 px-4 py-3.5 text-sm text-white placeholder-[#64646D] focus:border-[#C5A059] focus:outline-none"
@@ -103,15 +193,16 @@ export const BookingContact: React.FC<BookingContactProps> = ({ preselectedServi
                 </div>
               </div>
 
+              {/* Vehicle Model & Service */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
-                    Vehicle Year, Make & Model *
+                    Vehicle Year, Make & Model <span className="text-[#C5A059]">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. 2024 Porsche 911 Carrera GTS"
+                    placeholder="e.g. 2024 Toyota Fortuner / BMW 330Li"
                     value={formData.vehicleModel}
                     onChange={(e) => setFormData({ ...formData, vehicleModel: e.target.value })}
                     className="w-full bg-[#08090B] border border-white/10 px-4 py-3.5 text-sm text-white placeholder-[#64646D] focus:border-[#C5A059] focus:outline-none"
@@ -120,7 +211,7 @@ export const BookingContact: React.FC<BookingContactProps> = ({ preselectedServi
 
                 <div>
                   <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
-                    Desired Treatment Program *
+                    Desired Treatment Program <span className="text-[#C5A059]">*</span>
                   </label>
                   <select
                     value={formData.service}
@@ -128,52 +219,104 @@ export const BookingContact: React.FC<BookingContactProps> = ({ preselectedServi
                     className="w-full bg-[#08090B] border border-white/10 px-4 py-3.5 text-sm text-white focus:border-[#C5A059] focus:outline-none"
                   >
                     <option value="Paint Protection Film (PPF)">Self-Healing Paint Protection Film (PPF)</option>
-                    <option value="9H Ceramic Coating">9H Multi-Layer Ceramic Coating</option>
+                    <option value="9H Multi-Layer Ceramic Coating">9H Multi-Layer Ceramic Coating</option>
                     <option value="Nano Graphene Coating">Nano Graphene Surface Matrix</option>
                     <option value="Concours Paint Correction">Concours Multi-Stage Paint Correction</option>
-                    <option value="Full Comprehensive Package">Full Studio Package (PPF + Ceramic + Interior)</option>
-                    <option value="Interior Leather Preservation">Interior Leather Preservation</option>
+                    <option value="Full Comprehensive Studio Package">Full Studio Package (PPF + Ceramic + Interior)</option>
+                    <option value="Interior Leather & Cabin Preservation">Interior Leather & Cabin Preservation</option>
                   </select>
                 </div>
               </div>
 
+              {/* Vadodara Neighborhood Area & Preferred Date */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
+                    Vadodara Location / Area
+                  </label>
+                  <select
+                    value={formData.vadodaraArea}
+                    onChange={(e) => setFormData({ ...formData, vadodaraArea: e.target.value })}
+                    className="w-full bg-[#08090B] border border-white/10 px-4 py-3.5 text-sm text-white focus:border-[#C5A059] focus:outline-none"
+                  >
+                    <option value="Gotri / Alkapuri">Gotri / Alkapuri</option>
+                    <option value="Vasna-Bhayli Road">Vasna-Bhayli Road</option>
+                    <option value="Sevasi / Khanpur">Sevasi / Khanpur</option>
+                    <option value="Akota / Old Padra Road">Akota / Old Padra Road</option>
+                    <option value="Manjalpur / Makarpura">Manjalpur / Makarpura</option>
+                    <option value="Fatehgunj / Sama">Fatehgunj / Sama</option>
+                    <option value="Karelibaug / Harni">Karelibaug / Harni</option>
+                    <option value="Waghodia Road / Kalali">Waghodia Road / Kalali</option>
+                    <option value="Other Area in Gujarat">Other Area in Gujarat</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
+                    Preferred Inspection Date
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.preferredDate}
+                    onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+                    className="w-full bg-[#08090B] border border-white/10 px-4 py-3.5 text-sm text-white focus:border-[#C5A059] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Additional Notes */}
               <div>
                 <label className="block text-xs uppercase font-medium text-[#C5C5CD] mb-2 tracking-wider">
-                  Additional Notes or Vehicle Paint Condition
+                  Vehicle Paint Condition or Special Requests
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Mention delivery date, existing ceramic coating, or specific protection requirements."
+                  placeholder="Mention delivery date, known swirl marks, existing coating, or highway protection priorities."
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   className="w-full bg-[#08090B] border border-white/10 px-4 py-3 text-sm text-white placeholder-[#64646D] focus:border-[#C5A059] focus:outline-none"
                 />
               </div>
 
-              <div className="pt-2 flex flex-col sm:flex-row gap-4 items-center">
-                <button
-                  type="submit"
-                  className="btn-luxury-primary w-full sm:w-auto text-xs cursor-pointer"
-                >
-                  <Send className="w-3.5 h-3.5 mr-1" />
-                  Submit Assessment Request
-                </button>
-                <span className="text-xs text-[#64646D]">or</span>
-                <a
-                  href={generateWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-luxury-secondary w-full sm:w-auto text-xs"
-                >
-                  <MessageSquare className="w-3.5 h-3.5 mr-1 text-[#25D366]" />
-                  Instant WhatsApp Dispatch
-                </a>
+              {/* Privacy Consent Checkbox */}
+              <div className="flex items-start gap-2.5 pt-1">
+                <input
+                  type="checkbox"
+                  id="consentCheckbox"
+                  checked={formData.consent}
+                  onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
+                  className="mt-1 accent-[#C5A059] w-4 h-4 cursor-pointer"
+                />
+                <label htmlFor="consentCheckbox" className="text-xs text-[#8E919C] cursor-pointer">
+                  I agree to receive a tailored estimate and pre-service inspection schedule via WhatsApp or phone from D Glossy Den Vadodara.
+                </label>
               </div>
 
-              <p className="text-[11px] text-[#64646D] flex items-center gap-1.5 pt-2">
-                <Shield className="w-3.5 h-3.5 text-[#C5A059]" />
-                Your contact details are strictly confidential and used solely for vehicle assessment.
-              </p>
+              {/* Action Buttons */}
+              <div className="pt-3 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-luxury-primary w-full sm:w-auto text-xs cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-black" />
+                      <span>Verifying Bay Slot...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Submit Assessment Request</span>
+                    </>
+                  )}
+                </button>
+
+                <div className="flex items-center gap-2 text-xs text-[#7A7A85]">
+                  <Shield className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>Complimentary Paint Depth Inspection Included</span>
+                </div>
+              </div>
             </form>
           )}
         </div>

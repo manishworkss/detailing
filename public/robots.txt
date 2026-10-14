@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://www.exoticcardetailingstudio.com/sitemap.xml
+# Sitemap for D Glossy Den Vadodara
+Sitemap: https://dglossyden.in/sitemap.xml
