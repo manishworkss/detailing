@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
-
-# Sitemap for D Glossy Den Vadodara
-Sitemap: https://dglossyden.in/sitemap.xml
+Sitemap: https://www.aksharcarspa.com/sitemap.xml

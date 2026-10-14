@@ -2,13 +2,13 @@
 
 @theme {
   --color-studio-dark: #08090B;
-  --color-studio-card: #101217;
-  --color-studio-elevated: #161820;
+  --color-studio-card: #0F1117;
+  --color-studio-elevated: #161922;
   --color-studio-border: rgba(255, 255, 255, 0.08);
-  --color-studio-border-gold: rgba(197, 160, 89, 0.25);
-  --color-studio-gold: #C5A059;
-  --color-studio-gold-light: #DEC07E;
-  --color-studio-gold-dark: #8F7239;
+  --color-studio-border-red: rgba(227, 30, 37, 0.28);
+  --color-acs-red: #E31E25;
+  --color-acs-red-light: #FF3B44;
+  --color-acs-red-dark: #B3141A;
   --color-studio-text-primary: #F5F5F7;
   --color-studio-text-secondary: #9E9EA7;
   --color-studio-text-muted: #64646D;
@@ -37,7 +37,7 @@
     border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #C5A059;
+    background: #E31E25;
   }
 }
 
@@ -45,30 +45,30 @@
   font-family: var(--font-heading);
 }
 
-.gold-gradient-text {
-  background: linear-gradient(135deg, #F5E5C9 0%, #C5A059 50%, #9B7637 100%);
+.red-gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FF6B72 40%, #E31E25 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .luxury-card {
-  background: linear-gradient(180deg, rgba(22, 24, 32, 0.9) 0%, rgba(14, 16, 21, 0.95) 100%);
-  border: 1px solid rgba(197, 160, 89, 0.18);
+  background: linear-gradient(180deg, rgba(22, 25, 34, 0.9) 0%, rgba(14, 16, 22, 0.95) 100%);
+  border: 1px solid rgba(227, 30, 37, 0.2);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
 }
 
 .luxury-card:hover {
-  border-color: rgba(197, 160, 89, 0.45);
+  border-color: rgba(227, 30, 37, 0.5);
 }
 
-/* Sharp architectural luxury button */
+/* Sharp architectural luxury button with Akshar Car Spa red */
 .btn-luxury-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #C5A059;
-  color: #08090B;
+  background-color: #E31E25;
+  color: #FFFFFF;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -76,12 +76,13 @@
   padding: 0.875rem 1.75rem;
   border-radius: 2px;
   transition: all 0.25s ease;
-  border: 1px solid #D8B46C;
+  border: 1px solid #FF3B44;
 }
 
 .btn-luxury-primary:hover {
-  background-color: #DEC07E;
-  box-shadow: 0 4px 20px rgba(197, 160, 89, 0.35);
+  background-color: #FF242C;
+  box-shadow: 0 4px 25px rgba(227, 30, 37, 0.45);
+  transform: translateY(-1px);
 }
 
 .btn-luxury-secondary {
@@ -89,7 +90,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: rgba(22, 24, 32, 0.6);
+  background-color: rgba(22, 25, 34, 0.7);
   color: #F5F5F7;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -97,13 +98,13 @@
   font-size: 0.8125rem;
   padding: 0.875rem 1.75rem;
   border-radius: 2px;
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  border: 1px solid rgba(227, 30, 37, 0.35);
   transition: all 0.25s ease;
 }
 
 .btn-luxury-secondary:hover {
-  border-color: #C5A059;
-  background-color: rgba(197, 160, 89, 0.1);
+  border-color: #E31E25;
+  background-color: rgba(227, 30, 37, 0.12);
   color: #FFFFFF;
 }
 
@@ -127,4 +128,3 @@
 .animate-marquee:hover {
   animation-play-state: paused;
 }
-

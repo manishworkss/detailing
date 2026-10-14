@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, MessageSquare, Menu, X, ShieldCheck, ArrowRight, Lock, Sparkles } from 'lucide-react';
+import { Phone, MessageSquare, Menu, X, ShieldCheck, ArrowRight, MapPin, Sparkles } from 'lucide-react';
 import { trackEvent } from '../services/leadService';
 
 interface NavbarProps {
@@ -26,15 +26,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const navLinks = [
-    { label: 'Transformations', href: '#gallery' },
-    { label: '3D Bay POV', href: '#car-pov' },
     { label: 'Services', href: '#services' },
-    { label: 'Packages', href: '#packages' },
-    { label: 'PPF Armor', href: '#ppf' },
+    { label: 'ACS PPF', href: '#ppf' },
     { label: 'Ceramic 9H', href: '#ceramic' },
-    { label: 'About', href: '#about' },
+    { label: 'Transformations', href: '#gallery' },
+    { label: 'Packages', href: '#packages' },
+    { label: '4 Studios', href: '#location' },
+    { label: 'Reviews', href: '#reviews' },
     { label: 'FAQ', href: '#faq' },
-    { label: 'Studio', href: '#location' },
   ];
 
   return (
@@ -44,137 +43,124 @@ export const Navbar: React.FC<NavbarProps> = ({
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-[#07080A]/95 backdrop-blur-xl border-b border-[#C5A059]/25 shadow-[0_10px_30px_rgba(0,0,0,0.85)]'
-          : 'bg-[#07080A]/90 backdrop-blur-md border-b border-white/5'
+          ? 'bg-[#08090B]/95 backdrop-blur-xl border-b border-[#E31E25]/30 shadow-[0_10px_30px_rgba(0,0,0,0.85)]'
+          : 'bg-[#08090B]/90 backdrop-blur-md border-b border-white/5'
       }`}
     >
       {/* Top Utility Bar */}
-      <div className="hidden lg:block bg-[#0A0C10] border-b border-white/5 py-1.5 px-6 text-[11px] text-[#8E8E98]">
+      <div className="hidden lg:block bg-[#0D0F15] border-b border-white/5 py-1.5 px-6 text-[11px] text-[#8E8E98]">
         <div className="max-w-7xl mx-auto flex justify-between items-center tracking-wider">
           <div className="flex items-center gap-6">
-            <span className="flex items-center gap-1.5 text-[#DEC07E] font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#C5A059]" />
-              Automotive Detailing & Surface Preservation Studio: Vadodara, Gujarat
+            <span className="flex items-center gap-1.5 text-white font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#E31E25]" />
+              Akshar Car Spa &mdash; Vadodara's Certified Detailing Network
             </span>
-            <span className="text-[#55555E]">•</span>
-            <span>Cleanroom Climate Bay & High-CRI LED Tunnel</span>
+            <span className="text-[#454752]">•</span>
+            <span className="flex items-center gap-1 text-[#A1A1AA]">
+              <MapPin className="w-3 h-3 text-[#E31E25]" />
+              4 Locations: Karelibagh (HO) • Akota • Manjalpur • New Manjalpur
+            </span>
           </div>
+
           <div className="flex items-center gap-6">
-            <span>Mon - Sat: 9:00 AM - 8:00 PM</span>
-            <span className="text-[#55555E]">•</span>
             <a
-              href="tel:+919825014820"
-              onClick={() => trackEvent('phone_click', 'Top Bar Phone')}
-              className="text-[#F5F5F7] hover:text-[#C5A059] font-medium transition-colors flex items-center gap-1.5"
+              href="tel:+917778857187"
+              onClick={() => trackEvent('phone_click', 'Navbar Top Desk')}
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-medium"
             >
-              <Phone className="w-3 h-3 text-[#C5A059]" />
-              +91 98250 14820
+              <Phone className="w-3 h-3 text-[#E31E25]" />
+              +91 77788 57187
             </a>
+            <span className="text-[#454752]">•</span>
+            <span className="text-[#8E8E98]">Mon &ndash; Sun: 9:00 AM &ndash; 8:00 PM</span>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation Container */}
+      {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Brand Identity */}
+          {/* Logo / Brand Mark */}
           <a href="#" className="flex items-center gap-3.5 group">
-            <div className="relative w-10 h-10 border border-[#C5A059]/60 flex items-center justify-center bg-[#101217] group-hover:border-[#DEC07E] transition-all duration-300 shadow-sm">
-              <span className="font-cinzel text-xl font-bold text-[#DEC07E] group-hover:scale-105 transition-transform">
-                D
+            {/* ACS Shield Monogram */}
+            <div className="w-11 h-11 rounded-[3px] bg-gradient-to-br from-[#1C1F2B] to-[#0A0C10] border border-[#E31E25]/50 flex items-center justify-center shadow-lg group-hover:border-[#E31E25] transition-all duration-300">
+              <span className="font-cinzel text-sm font-extrabold tracking-widest text-[#FFFFFF] group-hover:text-[#FF3B44] transition-colors">
+                ACS
               </span>
             </div>
-            <div>
-              <span className="font-cinzel text-base sm:text-lg font-bold tracking-widest text-[#F5F5F7] block leading-none">
-                D GLOSSY DEN
+
+            {/* Typography */}
+            <div className="flex flex-col">
+              <span className="font-cinzel text-lg sm:text-xl font-bold tracking-[0.18em] text-[#F5F5F7] group-hover:text-white transition-colors flex items-center gap-1.5">
+                AKSHAR <span className="text-[#E31E25]">CAR SPA</span>
               </span>
-              <span className="text-[9px] uppercase tracking-[0.28em] text-[#C5A059] block mt-1 font-semibold">
-                Vadodara Detailing Studio
+              <span className="text-[9px] uppercase tracking-[0.25em] text-[#8E8E98] font-medium -mt-0.5">
+                Automotive Protection & Detailing • Vadodara
               </span>
             </div>
           </a>
 
-          {/* Desktop Nav Items */}
-          <nav className="hidden xl:flex items-center gap-6 text-[11px] uppercase tracking-[0.14em] font-medium text-[#B5B5BE]">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden xl:flex items-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="relative py-2 hover:text-[#DEC07E] transition-colors group"
+                className="text-[12px] uppercase tracking-[0.12em] font-medium text-[#C4C4CD] hover:text-[#FF3B44] transition-colors duration-200 relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#E31E25] hover:after:w-full after:transition-all after:duration-200"
               >
                 {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#C5A059] transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </nav>
 
           {/* Action CTAs */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            {/* Growth Strategy Playbook Button */}
-            {onOpenGrowthStrategy && (
-              <button
-                onClick={onOpenGrowthStrategy}
-                title="Marketing Growth Playbook & 30-Day Calendar"
-                className="h-9 px-3 inline-flex items-center justify-center gap-1.5 bg-[#12141A] hover:bg-[#1A1E29] text-[#DEC07E] border border-[#C5A059]/30 text-[10px] uppercase tracking-wider font-semibold rounded-[2px] transition-colors cursor-pointer"
-              >
-                <Sparkles className="w-3 h-3 text-[#C5A059]" />
-                <span className="hidden 2xl:inline">Growth</span> Playbook
-              </button>
-            )}
-
-            {/* Admin Lead Portal Button */}
-            {onOpenAdmin && (
-              <button
-                onClick={onOpenAdmin}
-                title="Staff Lead Management Portal"
-                className="h-9 px-2.5 inline-flex items-center justify-center gap-1.5 bg-[#12141A] hover:bg-[#1A1E29] text-[#A0A0A9] hover:text-white border border-white/10 text-[10px] uppercase tracking-wider rounded-[2px] transition-colors cursor-pointer"
-              >
-                <Lock className="w-3 h-3 text-[#C5A059]" />
-                <span className="hidden 2xl:inline">Staff</span> CRM
-              </button>
-            )}
-
-            {/* WhatsApp Quick Quote */}
-            <motion.a
-              whileHover={{ y: -1 }}
-              whileTap={{ y: 0 }}
-              href="https://wa.me/919825014820?text=Hello%20D%20Glossy%20Den%20Vadodara%2C%20I%20would%20like%20a%20quote%20for%20my%20vehicle"
+          <div className="hidden sm:flex items-center gap-3">
+            <a
+              href="https://wa.me/918511510254?text=Hello%20Akshar%20Car%20Spa,%20I%20am%20interested%20in%20an%20appointment%20for%20my%20car."
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent('whatsapp_click', 'Navbar WhatsApp')}
-              className="h-10 px-3.5 inline-flex items-center justify-center gap-1.5 bg-[#101217] hover:bg-[#161922] text-[#F5F5F7] border border-[#C5A059]/35 hover:border-[#C5A059] text-[11px] uppercase tracking-wider font-semibold rounded-[2px] transition-all duration-200"
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#25D366] bg-[#0E1512] hover:bg-[#121E19] border border-[#25D366]/30 hover:border-[#25D366] rounded-[2px] transition-all"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
+              <MessageSquare className="w-3.5 h-3.5" />
               <span>WhatsApp</span>
-            </motion.a>
+            </a>
 
-            {/* Book Inspection CTA */}
-            <motion.button
-              whileHover={{ y: -1, boxShadow: '0 4px 20px rgba(197, 160, 89, 0.25)' }}
-              whileTap={{ y: 0 }}
+            <button
               onClick={() => {
-                trackEvent('cta_click', 'Navbar Book Inspection');
+                trackEvent('cta_click', 'Navbar Book Appointment');
                 onOpenBooking();
               }}
-              className="h-10 px-4 inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#D8B46C] via-[#C5A059] to-[#B38D46] hover:from-[#E5C37E] hover:to-[#C5A059] text-[#08090B] border border-[#DEC07E] text-[11px] uppercase tracking-wider font-bold rounded-[2px] transition-all duration-200 cursor-pointer shadow-md"
+              className="btn-luxury-primary cursor-pointer text-xs py-2.5 px-4 shadow-lg"
             >
-              <span>Book Inspection</span>
+              <span>Book Appointment</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </motion.button>
+            </button>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 text-[#DEC07E] hover:text-white focus:outline-none"
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Menu Button */}
+          <div className="flex items-center gap-2 xl:hidden">
+            <button
+              onClick={() => {
+                trackEvent('cta_click', 'Navbar Mobile Book CTA');
+                onOpenBooking();
+              }}
+              className="sm:hidden btn-luxury-primary text-[11px] py-1.5 px-3"
+            >
+              Book
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-[#C4C4CD] hover:text-white focus:outline-none cursor-pointer"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6 text-[#E31E25]" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -182,56 +168,53 @@ export const Navbar: React.FC<NavbarProps> = ({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="xl:hidden bg-[#0A0C10] border-b border-[#C5A059]/30 px-6 py-6 space-y-5"
+            className="xl:hidden bg-[#0A0C11] border-b border-[#E31E25]/30 px-6 py-6 overflow-hidden"
           >
-            <nav className="flex flex-col space-y-3.5 text-xs uppercase tracking-wider text-[#C5C5CD]">
+            <div className="flex flex-col gap-4">
+              <div className="pb-3 border-b border-white/10 text-xs text-[#8E8E98]">
+                <p className="font-semibold text-white mb-1">AKSHAR CAR SPA &bull; VADODARA</p>
+                <p>4 Locations: Karelibagh HO • Akota • Manjalpur • New Manjalpur</p>
+              </div>
+
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-[#DEC07E] py-1 border-b border-white/5 transition-colors"
+                  className="text-sm uppercase tracking-wider font-medium text-[#C4C4CD] hover:text-[#FF3B44] transition-colors py-1"
                 >
                   {link.label}
                 </a>
               ))}
-            </nav>
 
-            <div className="pt-2 flex flex-col gap-2.5">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenBooking();
-                }}
-                className="btn-luxury-primary text-xs w-full py-3"
-              >
-                Request Inspection & Quote
-              </button>
+              <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+                <a
+                  href="tel:+917778857187"
+                  className="flex items-center justify-center gap-2 w-full py-3 text-xs uppercase tracking-wider font-semibold text-white bg-[#151822] border border-white/10 rounded-[2px]"
+                >
+                  <Phone className="w-3.5 h-3.5 text-[#E31E25]" />
+                  <span>Call Studio: +91 77788 57187</span>
+                </a>
 
-              <div className="grid grid-cols-2 gap-2 pt-2">
-                {onOpenGrowthStrategy && (
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenGrowthStrategy();
-                    }}
-                    className="p-2.5 bg-[#12141A] border border-[#C5A059]/40 text-[#DEC07E] text-[11px] font-semibold text-center"
-                  >
-                    Growth Playbook
-                  </button>
-                )}
+                <a
+                  href="https://wa.me/918511510254?text=Hello%20Akshar%20Car%20Spa,%20I%20am%20interested%20in%20booking%20an%20appointment."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 text-xs uppercase tracking-wider font-semibold text-[#25D366] bg-[#0E1512] border border-[#25D366]/40 rounded-[2px]"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Chat on WhatsApp</span>
+                </a>
 
-                {onOpenAdmin && (
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenAdmin();
-                    }}
-                    className="p-2.5 bg-[#12141A] border border-white/10 text-[#A0A0A9] text-[11px] font-semibold text-center"
-                  >
-                    Staff Leads
-                  </button>
-                )}
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenBooking();
+                  }}
+                  className="btn-luxury-primary w-full py-3 text-xs"
+                >
+                  <span>Book Studio Appointment</span>
+                </button>
               </div>
             </div>
           </motion.div>

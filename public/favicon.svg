@@ -1,19 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F3E7C4" />
-      <stop offset="50%" stop-color="#C5A059" />
-      <stop offset="100%" stop-color="#8F7239" />
+    <linearGradient id="gradRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF3B44" />
+      <stop offset="100%" stop-color="#B3141A" />
+    </linearGradient>
+    <linearGradient id="gradChrome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#A5A5B0" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#07080A" stroke="#C5A059" stroke-width="1.5"/>
-  <!-- Precision Shield Crest -->
-  <path d="M32 9 L51 18 L51 36 C51 46 43 53 32 57 C21 53 13 46 13 36 L13 18 Z" fill="#101217" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linejoin="round"/>
-  <!-- Inner Precision Accent -->
-  <path d="M32 15 L45 22 L45 35 C45 42 39 47 32 50 C25 47 19 42 19 35 L19 22 Z" fill="none" stroke="#C5A059" stroke-opacity="0.35" stroke-width="1.2"/>
-  <!-- Sharp Stylized D Emblem -->
-  <path d="M26 23 L34 23 C39 23 42 26 42 32 C42 38 39 41 34 41 L26 41 Z" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M26 23 L26 41" stroke="#F5F5F7" stroke-width="3" stroke-linecap="round"/>
-  <!-- Diamond Sparkle Accent -->
-  <circle cx="32" cy="18" r="1.5" fill="#F5E5C9"/>
+  <rect width="100" height="100" rx="20" fill="#08090B" />
+  <rect x="3" y="3" width="94" height="94" rx="17" fill="none" stroke="url(#gradRed)" stroke-width="2.5" opacity="0.8" />
+  <!-- Dynamic Shield / Crest Geometry -->
+  <path d="M50 16 L80 28 L72 68 L50 84 L28 68 L20 28 Z" fill="#101217" stroke="url(#gradRed)" stroke-width="3" />
+  <!-- ACS Monogram Emblem -->
+  <text x="50" y="58" font-family="'Cinzel', 'Inter', serif" font-size="28" font-weight="900" fill="url(#gradChrome)" text-anchor="middle" letter-spacing="1">ACS</text>
+  <!-- Red Speed Accent Dot -->
+  <circle cx="50" cy="71" r="3" fill="#E31E25" />
 </svg>
