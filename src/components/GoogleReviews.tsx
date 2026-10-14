@@ -1,109 +1,105 @@
 import React from 'react';
-import { Star, CheckCircle, ExternalLink, ShieldCheck, HeartHandshake, Camera } from 'lucide-react';
-import { trackEvent } from '../services/leadService';
+import { Star, CheckCircle, ShieldCheck, MessageSquare } from 'lucide-react';
+
+interface ReviewItem {
+  id: string;
+  author: string;
+  rating: number;
+  date: string;
+  location: string;
+  comment: string;
+}
+
+const REVIEWS_DATA: ReviewItem[] = [
+  {
+    id: 'rev-1',
+    author: 'Dixit Patel',
+    rating: 5,
+    date: 'Verified Customer',
+    location: 'Vadodara',
+    comment: 'They have an appointment based services which is a good point. You reach at the time and your car starts getting served. They have a customer waiting lounge where you can sit and relax while the car is being washed. Once cleaning is done. One person thoroughly checks for cleaning quality which is definitely a good point. Overall I loved their service.'
+  },
+  {
+    id: 'rev-2',
+    author: 'Dr Dhruve Bardolia',
+    rating: 5,
+    date: 'Verified Customer',
+    location: 'Karelibagh Studio',
+    comment: 'Absolutely impressed with Akshar Car Spa, Karelibaug, Vadodara! Their attention to detail is outstanding—my car looked brand new after the service. The staff is professional, polite, and clearly passionate about their work. Great value for money and timely delivery.'
+  },
+  {
+    id: 'rev-3',
+    author: 'Hardik H Chaudharyi',
+    rating: 5,
+    date: 'Verified Customer',
+    location: 'Vadodara',
+    comment: "One of the best car spa in Vadodara. They have an appointment system which saves a lot of time as we don't need to wait in queue. Also there are no chances that someone can get his work done without an appointment. The techs are well trained and have knowledge of what they are doing. Even after the wash the owners make sure that no part of the vehicle is left untreated."
+  }
+];
 
 export const GoogleReviews: React.FC = () => {
   return (
-    <section id="reviews" className="py-24 bg-[#0A0C10] border-t border-white/5 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header with Google Verification Badge */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-3">
-              Trust & Transparency
-            </p>
-            <h2 className="font-cinzel text-3xl sm:text-4xl font-bold text-[#F5F5F7] tracking-tight">
-              Our Customer Delivery Standard
-            </h2>
-            <p className="mt-2 text-sm text-[#9E9EA7] max-w-xl">
-              At D Glossy Den, we believe reputation is earned through microscopic craftsmanship. We never hand over a vehicle until the owner inspects it with us under our Scangrip lighting tunnel.
-            </p>
+    <section id="reviews" className="py-24 bg-[#07080A] border-t border-white/5 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#151822] border border-[#E31E25]/40 text-[#FF3B44] text-[11px] font-semibold uppercase tracking-widest mb-3">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Verified Customer Testimonials</span>
           </div>
-
-          {/* Rating / Review Action Card */}
-          <div className="p-4 bg-[#12141A] border border-[#C5A059]/30 flex items-center gap-4 shrink-0">
-            <div>
-              <div className="flex items-center gap-1 text-[#C5A059] mb-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-[#C5A059]" />
-                ))}
-              </div>
-              <p className="text-xs font-semibold text-white">
-                100% Verified Delivery Walkaround
-              </p>
-            </div>
-            <div className="h-8 w-px bg-white/10" />
-            <a
-              href="https://maps.google.com/?q=D+Glossy+Den+Vadodara"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent('cta_click', 'Google Maps Reviews Button')}
-              className="text-xs text-[#DEC07E] hover:underline flex items-center gap-1 font-medium"
-            >
-              <span>View On Google Maps</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </div>
+          <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+            What Customers Are Saying
+          </h2>
+          <p className="mt-4 text-sm sm:text-base text-[#9E9EA7]">
+            Real feedback from car enthusiasts and luxury automobile owners serviced at our Vadodara detailing studios.
+          </p>
         </div>
 
-        {/* 3 Pillars of Client Guarantee */}
+        {/* Reviews Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="luxury-card p-8 flex flex-col justify-between border-t-2 border-t-[#C5A059]">
-            <div>
-              <div className="w-10 h-10 bg-[#161922] border border-[#C5A059]/40 flex items-center justify-center text-[#DEC07E] mb-5">
-                <Camera className="w-5 h-5" />
-              </div>
-              <h3 className="font-cinzel text-base font-bold text-white mb-2">
-                Daily WhatsApp Visual Progress
-              </h3>
-              <p className="text-xs sm:text-sm text-[#9E9EA7] leading-relaxed">
-                You receive high-resolution photos and video clips during clay decontamination, compounding stages, and cleanroom film wrapping so you know exactly how your vehicle is handled.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-white/5 mt-6">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-[#DEC07E]">
-                Zero Guesswork • Full Transparency
-              </span>
-            </div>
-          </div>
+          {REVIEWS_DATA.map((review) => (
+            <div
+              key={review.id}
+              className="luxury-card p-6 rounded-none flex flex-col justify-between border border-white/10 hover:border-[#E31E25]/50 transition-all duration-300"
+            >
+              <div>
+                {/* Rating Stars & Badge */}
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/5">
+                  <div className="flex items-center gap-1">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-[#E31E25] text-[#E31E25]" />
+                    ))}
+                    <span className="text-xs font-mono font-bold text-white ml-1.5">5.0</span>
+                  </div>
+                  <span className="text-[10px] uppercase font-semibold tracking-wider text-[#A1A1AA] flex items-center gap-1">
+                    <CheckCircle className="w-3 h-3 text-emerald-400" />
+                    Google Review
+                  </span>
+                </div>
 
-          <div className="luxury-card p-8 flex flex-col justify-between border-t-2 border-t-[#C5A059]">
-            <div>
-              <div className="w-10 h-10 bg-[#161922] border border-[#C5A059]/40 flex items-center justify-center text-[#DEC07E] mb-5">
-                <ShieldCheck className="w-5 h-5" />
+                {/* Review Body */}
+                <p className="text-xs sm:text-sm text-[#C4C4CD] leading-relaxed italic">
+                  "{review.comment}"
+                </p>
               </div>
-              <h3 className="font-cinzel text-base font-bold text-white mb-2">
-                High-CRI Delivery Handover
-              </h3>
-              <p className="text-xs sm:text-sm text-[#9E9EA7] leading-relaxed">
-                Before your car leaves our Vadodara studio, we invite you into our inspection bay. We provide an LED inspection torch so you can personally verify swirl removal across every panel.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-white/5 mt-6">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-[#DEC07E]">
-                Complimentary Paint Thickness Report
-              </span>
-            </div>
-          </div>
 
-          <div className="luxury-card p-8 flex flex-col justify-between border-t-2 border-t-[#C5A059]">
-            <div>
-              <div className="w-10 h-10 bg-[#161922] border border-[#C5A059]/40 flex items-center justify-center text-[#DEC07E] mb-5">
-                <HeartHandshake className="w-5 h-5" />
+              {/* Author Footer */}
+              <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+                <div>
+                  <h4 className="font-cinzel text-sm font-bold text-white">
+                    {review.author}
+                  </h4>
+                  <span className="text-[10px] text-[#8E8E98] block">
+                    {review.location} &bull; {review.date}
+                  </span>
+                </div>
+
+                <div className="w-7 h-7 rounded-full bg-[#161924] border border-[#E31E25]/30 flex items-center justify-center text-xs font-bold text-[#E31E25]">
+                  {review.author.charAt(0)}
+                </div>
               </div>
-              <h3 className="font-cinzel text-base font-bold text-white mb-2">
-                Post-Cure 1st Wash Checkup
-              </h3>
-              <p className="text-xs sm:text-sm text-[#9E9EA7] leading-relaxed">
-                Within 14 days of ceramic coating or PPF installation, we invite you back for a complimentary inspection wash to examine hydrophobic sheeting and verify edge settling.
-              </p>
             </div>
-            <div className="pt-4 border-t border-white/5 mt-6">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-[#DEC07E]">
-                Written Maintenance Protocol Provided
-              </span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Shield, Sparkles, Check, ArrowRight, ShieldCheck, Flame, Sun, Droplets, Award } from 'lucide-react';
 import { trackEvent } from '../services/leadService';
 
 interface PPFSectionProps {
@@ -9,144 +9,127 @@ interface PPFSectionProps {
 
 export const PPFSection: React.FC<PPFSectionProps> = ({ onOpenBooking }) => {
   return (
-    <section id="ppf" className="py-24 bg-[#0A0C10] border-t border-white/5 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="ppf" className="py-24 bg-[#08090B] relative overflow-hidden">
+      {/* Dynamic Red Glow Backlight */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#E31E25]/10 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Photographic Showcase */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-6 relative"
-          >
-            <motion.div
-              whileHover={{ rotateY: -2, rotateX: 1 }}
-              style={{ perspective: 1000 }}
-              className="relative border border-[#C5A059]/40 bg-[#12141A] p-2 transition-transform duration-300 shadow-2xl"
-            >
+          {/* Left Visual Presentation */}
+          <div className="lg:col-span-6 relative">
+            <div className="relative aspect-[4/3] rounded-none overflow-hidden border border-white/10 shadow-2xl bg-[#0D0F15]">
               <img
-                src="/ppf-installation.jpg"
-                alt="Paint Protection Film (PPF) precision application at D Glossy Den Vadodara"
-                className="w-full h-auto object-cover"
-                loading="lazy"
+                src="/paint-correction-split.jpg"
+                alt="ACS Self Healing PPF Installation at Akshar Car Spa Vadodara"
+                className="w-full h-full object-cover brightness-90 contrast-105"
               />
-              <div className="absolute bottom-4 left-4 right-4 bg-[#08090B]/95 backdrop-blur-md border border-[#C5A059]/30 p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-semibold text-[#DEC07E]">
-                      Laser-Plotted Pattern Templates
-                    </p>
-                    <p className="text-[11px] text-[#9E9EA7]">
-                      Zero razor blades on factory clear coat in our Vadodara studio
-                    </p>
-                  </div>
-                  <span className="text-[10px] uppercase font-bold px-2 py-1 bg-[#1E222A] text-[#C5A059] border border-[#C5A059]/40">
-                    200 Micron TPU
-                  </span>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#08090B] via-transparent to-transparent" />
+
+              {/* Top Floating Badge */}
+              <div className="absolute top-4 left-4">
+                <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white bg-[#E31E25] shadow-lg flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>ACS Self-Healing TPU</span>
+                </span>
+              </div>
+
+              {/* Bottom Feature Pill */}
+              <div className="absolute bottom-4 left-4 right-4 p-4 bg-black/85 backdrop-blur-md border border-white/10 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider text-[#A1A1AA] block">Manufacturer Assurance</span>
+                  <span className="text-sm font-bold text-white">Up to 10 Years Warranty</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] uppercase tracking-wider text-[#A1A1AA] block">Starting Coverage</span>
+                  <span className="text-sm font-bold text-[#FF3B44]">From ₹20,000</span>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Column: Technical Details */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.8 }}
-            className="lg:col-span-6 space-y-6"
-          >
-            <div>
-              <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-2">
-                Maximum Impact Armor
-              </p>
-              <h2 className="font-cinzel text-3xl sm:text-4xl font-bold text-[#F5F5F7] tracking-tight">
-                Self-Healing Paint Protection Film (PPF)
-              </h2>
             </div>
+          </div>
+
+          {/* Right Content Breakdown */}
+          <div className="lg:col-span-6 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#151822] border border-[#E31E25]/40 text-[#FF3B44] text-[11px] font-semibold uppercase tracking-widest">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Vadodara's Most Trusted Film Studio</span>
+            </div>
+
+            <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+              ACS Self-Healing <br />
+              <span className="red-gradient-text">Paint Protection Film</span>
+            </h2>
 
             <p className="text-sm sm:text-base text-[#9E9EA7] leading-relaxed">
-              D Glossy Den installs optical thermoplastic polyurethane (TPU) films engineered for high durability against stone chips on National Highway 48 and Ahmedabad-Vadodara Expressway drives. Every piece is computer pre-cut to wrap deep around panel edges, keeping original paint untouched and stone-chip free.
+              Gujarat’s climate presents severe threats to automotive paint: flying highway gravel on NH48, mineral-heavy borewell water etching, and scorching UV heat. <strong className="text-white">ACS PPF</strong> creates an invisible 8-mil optical shield that self-heals swirl marks under ambient sunlight while preserving original factory resale value.
             </p>
 
-            {/* Coverage Packages */}
+            {/* Core Advantages */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <motion.div
-                whileHover={{ y: -3, borderColor: 'rgba(197, 160, 89, 0.5)' }}
-                className="p-5 bg-[#12141A] border border-white/5 transition-all duration-300"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
-                  <h3 className="font-cinzel text-sm font-bold text-white">Full Body Wrap</h3>
+              <div className="p-3.5 bg-[#0F1117] border border-white/5 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Flame className="w-4 h-4 text-[#E31E25]" />
+                  <span>Heat-Activated Self-Healing</span>
                 </div>
-                <p className="text-xs text-[#9E9EA7] mb-3">
-                  Comprehensive panel coverage including roof, pillars, doors, and bumpers.
+                <p className="text-[11px] text-[#8E8E98] leading-normal">
+                  Micro-scratches and wash towel swirls vanish automatically when exposed to engine heat or warm water.
                 </p>
-                <span className="text-[11px] font-semibold text-[#DEC07E]">
-                  Up to 10-Year Film Durability
-                </span>
-              </motion.div>
+              </div>
 
-              <motion.div
-                whileHover={{ y: -3, borderColor: 'rgba(197, 160, 89, 0.5)' }}
-                className="p-5 bg-[#12141A] border border-white/5 transition-all duration-300"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
-                  <h3 className="font-cinzel text-sm font-bold text-white">Front High-Impact Pack</h3>
+              <div className="p-3.5 bg-[#0F1117] border border-white/5 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Droplets className="w-4 h-4 text-[#E31E25]" />
+                  <span>Hydrophobic Topcoat</span>
                 </div>
-                <p className="text-xs text-[#9E9EA7] mb-3">
-                  Front bumper, full hood, both fenders, wing mirrors, and door cups.
+                <p className="text-[11px] text-[#8E8E98] leading-normal">
+                  Repels road grime, bug splatter, and corrosive borewell water spots with a high water contact angle.
                 </p>
-                <span className="text-[11px] font-semibold text-[#DEC07E]">
-                  5-Year Film Durability
-                </span>
-              </motion.div>
+              </div>
+
+              <div className="p-3.5 bg-[#0F1117] border border-white/5 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Sun className="w-4 h-4 text-[#E31E25]" />
+                  <span>Anti-Yellowing UV Filter</span>
+                </div>
+                <p className="text-[11px] text-[#8E8E98] leading-normal">
+                  Optical aliphatic TPU resists discoloration and cracking, maintaining optical transparency year after year.
+                </p>
+              </div>
+
+              <div className="p-3.5 bg-[#0F1117] border border-white/5 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <Award className="w-4 h-4 text-[#E31E25]" />
+                  <span>Non-Invasive Installation</span>
+                </div>
+                <p className="text-[11px] text-[#8E8E98] leading-normal">
+                  Removable at any time without damaging the original factory paint, fully protecting manufacturer warranty.
+                </p>
+              </div>
             </div>
 
-            {/* Technical Highlights */}
-            <div className="space-y-3 pt-2">
-              {[
-                'Instant scratch healing through heat exposure (sunlight or engine heat)',
-                'Optical grade clarity: Zero orange peel distortion or milky haze',
-                'Hydrophobic fluoropolymer topcoat rejects road asphalt, bug acid, and dirt',
-                'Available in Ultra Gloss Clear and Satin Stealth Matte finishes'
-              ].map((highlight) => (
-                <div key={highlight} className="flex items-center gap-3 text-xs text-[#C5C5CD]">
-                  <CheckCircle2 className="w-4 h-4 text-[#C5A059] shrink-0" />
-                  <span>{highlight}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Actions */}
-            <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <motion.button
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
+            {/* CTA */}
+            <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
+              <button
                 onClick={() => {
-                  trackEvent('cta_click', 'PPF Section Inquire');
+                  trackEvent('cta_click', 'PPF Section Book');
                   onOpenBooking();
                 }}
-                className="btn-luxury-primary cursor-pointer text-xs"
+                className="btn-luxury-primary w-full sm:w-auto text-xs py-3.5 px-6 shadow-xl flex items-center justify-center gap-2 cursor-pointer"
               >
-                Inquire For Your Vehicle
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
-              </motion.button>
-              <motion.a
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
-                href="https://wa.me/919825014820?text=Hello%20D%20Glossy%20Den%20Vadodara%2C%20I%20would%20like%20a%20quote%20for%20PPF%20Installation."
+                <span>Book Free PPF Inspection &amp; Estimate</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              <a
+                href="https://wa.me/918511510254?text=Hello%20Akshar%20Car%20Spa,%20I%20am%20inquiring%20about%20PPF%20coating%20for%20my%20car."
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackEvent('whatsapp_click', 'PPF Section WhatsApp')}
-                className="btn-luxury-secondary text-xs"
+                onClick={() => trackEvent('whatsapp_click', 'PPF WhatsApp')}
+                className="btn-luxury-secondary w-full sm:w-auto text-xs py-3.5 px-6 text-center"
               >
-                WhatsApp PPF Quote
-              </motion.a>
+                WhatsApp PPF Specialist
+              </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

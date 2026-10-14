@@ -1,81 +1,97 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Clock, ShieldCheck, Sparkles, AlertCircle, ArrowRight } from 'lucide-react';
-import { DetailingPackage } from '../types';
+import { Check, Shield, Sparkles, Clock, ArrowRight, Info, Award } from 'lucide-react';
 import { trackEvent } from '../services/leadService';
 
-const PACKAGES: DetailingPackage[] = [
+interface PackageTier {
+  id: string;
+  name: string;
+  subtitle: string;
+  badge?: string;
+  popular?: boolean;
+  warranty: string;
+  duration: string;
+  priceHatchSedan: string;
+  priceSuv: string;
+  priceLuxury: string;
+  features: string[];
+}
+
+const PACKAGES: PackageTier[] = [
   {
-    id: 'paint-correction-concours',
-    name: 'Concours Paint Restoration',
-    tagline: 'Micron-level swirl and hologram removal',
-    duration: '1 - 2 Days',
-    startingPrice: '₹14,999*',
-    priceNote: 'Starting estimate based on paint condition',
-    idealFor: 'Cars with severe swirl marks, wash towel scratches, or oxidation',
+    id: 'skin-restoration',
+    name: 'Skin Restoration & Gloss Package',
+    subtitle: 'Revitalizing oxidized paint, removing wash holograms, and restoring showroom shine',
+    warranty: 'Quality Checked',
+    duration: '1 Full Day',
+    priceHatchSedan: '₹6,500',
+    priceSuv: '₹8,500',
+    priceLuxury: '₹12,000',
     features: [
-      'Digital micrometer clear coat thickness mapping',
-      'Multi-stage rotary and random orbital compound leveling',
-      'Up to 90% - 95% swirl and scratch reduction',
-      'High-CRI dual-spectrum LED inspection',
-      'Jeweling finishing polish for maximum optical depth',
-      'Application of high-grade synthetic polymer sealant'
+      'Multi-stage compound buffing & swirl mark leveling',
+      'Headlight clarity de-yellowing & lens seal',
+      'Chrome trim & emblem polish',
+      'Wheel deep cleaning & brake dust removal',
+      'Exterior plastic & rubber trim rejuvenation',
+      'High-grade carnauba sealant finish'
     ]
   },
   {
-    id: 'ceramic-shield-9h',
-    name: '9H Multi-Layer Ceramic Shield',
-    tagline: 'Permanent hydrophobic glass-like gloss & UV barrier',
-    badge: 'MOST POPULAR IN GUJARAT',
-    duration: '2 Days (Incl. IR Curing)',
-    startingPrice: '₹24,999*',
-    priceNote: 'Estimate varies by vehicle segment & warranty tier',
-    idealFor: 'Daily drivers & luxury vehicles needing high gloss and easy wash maintenance',
+    id: 'silane-ceramic',
+    name: 'Nano Ceramic & Silane Pro Shield',
+    subtitle: 'Permanent hydrophobic molecular quartz matrix for long-lasting paint defense',
+    badge: 'High Value',
     popular: true,
+    warranty: '3 to 5 Years Warranty',
+    duration: '2 Days',
+    priceHatchSedan: '₹16,000',
+    priceSuv: '₹22,000',
+    priceLuxury: '₹32,000',
     features: [
-      'Full exterior chemical decontamination + synthetic clay prep',
-      '2-stage paint correction to eliminate wash marks',
-      'Multi-layer 9H nano-quartz ceramic coating on all painted panels',
-      'Hydrophobic glass rain-repellent coating (windshield & windows)',
-      'High-temperature ceramic seal on alloy wheel faces',
-      'Infrared (IR) short-wave heat curing in cleanroom bay',
-      'Complimentary 1st maintenance inspection & wash'
+      'Full 2-stage skin restoration & paint correction',
+      'Multi-layer 9H nano ceramic clear coat seal',
+      'Hydrophobic windshield & side glass treatment',
+      'High-heat alloy wheels ceramic coating',
+      'Interior dashboard & door card UV protection',
+      'Annual maintenance & gloss checkup program'
     ]
   },
   {
-    id: 'platinum-ppf-armor',
-    name: 'Platinum Self-Healing PPF Armor',
-    tagline: 'Maximum physical stone-chip and road debris protection',
-    badge: 'MAXIMUM RESALE PRESERVATION',
-    duration: '3 - 4 Days',
-    startingPrice: '₹48,000*',
-    priceNote: 'Packages available from Front High-Impact to Full Body',
-    idealFor: 'New vehicles, highway commuters, and luxury sports cars',
+    id: 'acs-ppf-armor',
+    name: 'ACS Self-Healing PPF Armor',
+    subtitle: 'Optical-grade TPU film absorbing high-speed stone chips and scratches with zero yellowing',
+    badge: 'Ultimate Armor',
+    warranty: 'Up to 10 Years Warranty',
+    duration: '3 to 4 Days',
+    priceHatchSedan: '₹20,000 (Partial) / ₹75k+',
+    priceSuv: '₹25,000 (Partial) / ₹95k+',
+    priceLuxury: 'Custom Concierge Quote',
     features: [
-      'Optical-grade 200-micron thermoplastic polyurethane (TPU)',
-      'Instant heat-activated self-healing topcoat (sunlight/hot water)',
-      'Computer-aided pre-cut patterns with deep wrapped edges',
-      'Zero razor blades on factory paintwork protocol',
-      'Non-yellowing, high-clarity aliphatic adhesive',
-      'Protects against stone chips, scratches, gravel, and bird acid',
-      'Available in Ultra Gloss or Satin Matte Stealth finishes'
+      'Self-healing optical TPU film with heat memory',
+      'Edge-wrapped seamless installation technology',
+      'Stone chip, gravel, and door ding absorption',
+      'Borewell water stain & UV yellowing resistance',
+      'Free 30-day post-installation edge inspection',
+      'Digital warranty certificate issued upon delivery'
     ]
   },
   {
-    id: 'interior-sanctuary',
-    name: 'Interior Leather & Cabin Rejuvenation',
-    tagline: 'Hospital-grade steam sanitation and matte protection',
-    duration: '5 - 7 Hours',
-    startingPrice: '₹6,499*',
-    priceNote: 'Sedan / SUV classification',
-    idealFor: 'Pre-monsoon/post-monsoon deep sanitization and luxury cabin upkeep',
+    id: 'executive-combo',
+    name: 'Executive Full Studio Combo',
+    subtitle: 'Bespoke vehicle wrapping or full PPF combined with complete ceramic and interior spa',
+    badge: 'Concours Grade',
+    warranty: '10 Years Complete Care',
+    duration: '4 to 5 Days',
+    priceHatchSedan: '₹45,000+',
+    priceSuv: '₹65,000+',
+    priceLuxury: 'Bespoke Quote',
     features: [
-      'Dry thermal steam extraction at 160°C across vents & crevices',
-      'Gentle pH-neutral foaming leather cleanser',
-      'Matte ceramic leather conditioning (zero synthetic greasy shine)',
-      'Deep carpet and fabric shampoo with wet extraction',
-      'Anti-bacterial disinfection and allergen elimination',
-      'Anti-static cockpit and dashboard UV barrier dressing'
+      'Custom vinyl wrap or comprehensive PPF armor',
+      'Ceramic quartz matrix over film & glass surfaces',
+      '160°C dry thermal steam interior sanitation',
+      'Full leather extraction and ceramic matte seal',
+      'Engine bay detail & protective dressing',
+      'Priority appointments across all 4 Vadodara studios'
     ]
   }
 ];
@@ -85,128 +101,153 @@ interface PackagesSectionProps {
 }
 
 export const PackagesSection: React.FC<PackagesSectionProps> = ({ onOpenBooking }) => {
-  const [vehicleSegment, setVehicleSegment] = useState<'Sedan / Hatch' | 'Mid SUV' | 'Luxury / Full SUV'>('Mid SUV');
+  const [selectedSegment, setSelectedSegment] = useState<'hatch' | 'suv' | 'luxury'>('suv');
 
   return (
-    <section id="packages" className="py-24 bg-[#0A0C10] border-t border-white/5 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="packages" className="py-24 bg-[#07080A] border-t border-white/5 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-3 flex items-center justify-center gap-2">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-[#FF3B44] font-semibold mb-3 flex items-center justify-center gap-2">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Tailored Protection Programs</span>
+            <span>Curated Studio Packages • Akshar Car Spa</span>
           </p>
           <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F5F5F7] tracking-tight">
-            Detailing & Protection Packages
+            Transparent Detailing Tiers
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#9E9EA7]">
-            Structured treatments designed for Vadodara's climate, road conditions, and dust exposure. All packages include chemical decontamination and cleanroom bay application.
+            Every treatment is executed inside our cleanroom bays using Scangrip diagnostic inspection lights and premium imported materials.
           </p>
+        </div>
 
-          {/* Vehicle Segment Selector */}
-          <div className="mt-8 inline-flex items-center p-1 bg-[#12141A] border border-white/10 rounded-sm">
-            {(['Sedan / Hatch', 'Mid SUV', 'Luxury / Full SUV'] as const).map((seg) => (
-              <button
-                key={seg}
-                onClick={() => {
-                  setVehicleSegment(seg);
-                  trackEvent('cta_click', `Segment Select: ${seg}`);
-                }}
-                className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-                  vehicleSegment === seg
-                    ? 'bg-[#C5A059] text-black shadow-sm'
-                    : 'text-[#9E9EA7] hover:text-white'
-                }`}
-              >
-                {seg}
-              </button>
-            ))}
+        {/* Vehicle Segment Selector */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex p-1 bg-[#0E1015] border border-white/10 rounded-[3px]">
+            <button
+              onClick={() => setSelectedSegment('hatch')}
+              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-[2px] transition-all cursor-pointer ${
+                selectedSegment === 'hatch'
+                  ? 'bg-[#E31E25] text-white shadow-md'
+                  : 'text-[#8E919C] hover:text-white'
+              }`}
+            >
+              Hatchback / Compact Sedan
+            </button>
+            <button
+              onClick={() => setSelectedSegment('suv')}
+              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-[2px] transition-all cursor-pointer ${
+                selectedSegment === 'suv'
+                  ? 'bg-[#E31E25] text-white shadow-md'
+                  : 'text-[#8E919C] hover:text-white'
+              }`}
+            >
+              Mid & Full-Size SUV
+            </button>
+            <button
+              onClick={() => setSelectedSegment('luxury')}
+              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-[2px] transition-all cursor-pointer ${
+                selectedSegment === 'luxury'
+                  ? 'bg-[#E31E25] text-white shadow-md'
+                  : 'text-[#8E919C] hover:text-white'
+              }`}
+            >
+              Luxury Saloon / 4x4
+            </button>
           </div>
         </div>
 
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PACKAGES.map((pkg) => (
-            <div
-              key={pkg.id}
-              className={`luxury-card p-6 flex flex-col justify-between relative transition-all duration-300 ${
-                pkg.popular
-                  ? 'border-[#C5A059] ring-1 ring-[#C5A059]/40 bg-[#12151E]'
-                  : 'border-white/10'
-              }`}
-            >
-              {pkg.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-3 py-1 bg-gradient-to-r from-[#C5A059] to-[#DFBF7A] text-black text-[9px] uppercase tracking-widest font-black rounded-[2px] shadow-md whitespace-nowrap">
-                    {pkg.badge}
-                  </span>
-                </div>
-              )}
+          {PACKAGES.map((pkg) => {
+            const currentPrice =
+              selectedSegment === 'hatch'
+                ? pkg.priceHatchSedan
+                : selectedSegment === 'suv'
+                ? pkg.priceSuv
+                : pkg.priceLuxury;
 
-              <div>
-                <div className="pt-2">
-                  <h3 className="font-cinzel text-lg font-bold text-white mb-1">
-                    {pkg.name}
-                  </h3>
-                  <p className="text-xs text-[#DEC07E] font-medium min-h-[32px]">
-                    {pkg.tagline}
-                  </p>
-                </div>
-
-                <div className="my-5 p-3 bg-[#0B0D11] border border-white/5 rounded-sm">
-                  <div className="flex items-baseline justify-between">
-                    <span className="font-cinzel text-2xl font-bold text-white">
-                      {pkg.startingPrice}
-                    </span>
-                    <span className="text-[11px] text-[#A0A0A9] flex items-center gap-1 font-medium">
-                      <Clock className="w-3 h-3 text-[#C5A059]" />
-                      {pkg.duration}
+            return (
+              <div
+                key={pkg.id}
+                className={`luxury-card flex flex-col justify-between p-6 rounded-none relative transition-all duration-300 ${
+                  pkg.popular
+                    ? 'border-[#E31E25] shadow-2xl shadow-[#E31E25]/10 bg-[#12141D]'
+                    : 'border-white/10 hover:border-[#E31E25]/40'
+                }`}
+              >
+                {/* Popular / Tier Badge */}
+                {pkg.badge && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white bg-[#E31E25] shadow-md border border-[#FF3B44]">
+                      {pkg.badge}
                     </span>
                   </div>
-                  <p className="text-[10px] text-[#7A7A85] mt-1 italic">
-                    {pkg.priceNote} for {vehicleSegment}
-                  </p>
+                )}
+
+                <div>
+                  {/* Title & Warranty */}
+                  <div className="mt-2 text-center pb-4 border-b border-white/10">
+                    <h3 className="font-cinzel text-lg font-bold text-white min-h-[48px] flex items-center justify-center">
+                      {pkg.name}
+                    </h3>
+                    <p className="text-[11px] text-[#8E919C] mt-1 leading-snug">
+                      {pkg.subtitle}
+                    </p>
+
+                    <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#FF3B44] font-semibold">
+                      <Award className="w-3.5 h-3.5" />
+                      <span>{pkg.warranty}</span>
+                    </div>
+
+                    {/* Price Display */}
+                    <div className="mt-3">
+                      <span className="font-cinzel text-2xl font-extrabold text-white">
+                        {currentPrice}
+                      </span>
+                      <span className="text-[10px] uppercase tracking-wider text-[#686873] block mt-0.5 font-mono">
+                        Estimated ({pkg.duration})
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Features */}
+                  <ul className="mt-6 space-y-3">
+                    {pkg.features.map((feat, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-[#C4C4CD]">
+                        <Check className="w-3.5 h-3.5 text-[#E31E25] shrink-0 mt-0.5" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                <p className="text-xs text-[#8E919C] mb-4 pb-3 border-b border-white/5">
-                  <strong className="text-white">Best for:</strong> {pkg.idealFor}
-                </p>
-
-                <ul className="space-y-2.5 text-xs text-[#C5C5CD] mb-6">
-                  {pkg.features.map((feat, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <Check className="w-3.5 h-3.5 text-[#C5A059] shrink-0 mt-0.5" />
-                      <span className="leading-snug">{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Card Action */}
+                <div className="mt-8 pt-4 border-t border-white/10">
+                  <button
+                    onClick={() => {
+                      trackEvent('cta_click', `Package Book: ${pkg.name}`);
+                      onOpenBooking(pkg.name);
+                    }}
+                    className={`w-full py-3 text-xs uppercase tracking-wider font-semibold rounded-[2px] transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                      pkg.popular
+                        ? 'btn-luxury-primary shadow-lg'
+                        : 'btn-luxury-secondary hover:border-[#E31E25] hover:text-white'
+                    }`}
+                  >
+                    <span>Select Package</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
-
-              <div className="pt-4 border-t border-white/5">
-                <button
-                  onClick={() => {
-                    trackEvent('cta_click', `Select Package: ${pkg.name}`, vehicleSegment);
-                    onOpenBooking(pkg.name);
-                  }}
-                  className={`w-full py-3 text-xs uppercase tracking-wider font-bold rounded-[2px] cursor-pointer flex items-center justify-center gap-1.5 transition-all ${
-                    pkg.popular
-                      ? 'btn-luxury-primary'
-                      : 'bg-[#161820] hover:bg-[#1E222C] text-white border border-[#C5A059]/30 hover:border-[#C5A059]'
-                  }`}
-                >
-                  <span>Book Package</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Clear Transparent Pricing Policy Alert */}
-        <div className="mt-12 p-4 bg-[#101217] border border-[#C5A059]/20 flex items-start sm:items-center gap-3 text-xs text-[#A0A0A9]">
-          <AlertCircle className="w-5 h-5 text-[#C5A059] shrink-0" />
+        {/* Studio Disclaimer Notice */}
+        <div className="mt-12 p-4 bg-[#0A0C11] border border-white/10 max-w-3xl mx-auto flex items-start gap-3 text-xs text-[#8E919C]">
+          <Info className="w-4 h-4 text-[#E31E25] shrink-0 mt-0.5" />
           <p>
-            <strong className="text-white">Honest Pricing Policy:</strong> Detailing is not a standardized assembly-line wash. Clear coat hardness, prior paint touch-ups, and scratch depth vary on every vehicle. We provide an exact written quote following our complimentary 15-minute paint micrometer inspection at our Vadodara studio.
+            <strong className="text-white">Inspection Transparency:</strong> Final pricing depends on existing paint clear coat thickness, surface marring severity, and vehicle dimensions. Every vehicle undergoes a digital gauge inspection upon arrival at our Karelibagh, Akota, or Manjalpur studios before work begins.
           </p>
         </div>
       </div>
