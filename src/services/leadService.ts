@@ -60,6 +60,12 @@ const DEFAULT_LEADS: Lead[] = [
   }
 ];
 
+export const validatePhone = (phone: string): boolean => {
+  const cleanPhone = phone.replace(/[\s\-()]/g, '');
+  const phoneRegex = /^(\+91|91|0)?[6-9]\d{9}$/;
+  return phoneRegex.test(cleanPhone);
+};
+
 export const getStoredLeads = (): Lead[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);

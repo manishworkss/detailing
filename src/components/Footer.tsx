@@ -1,121 +1,117 @@
 import React from 'react';
-import { Phone, Mail, MapPin, ShieldCheck, Lock } from 'lucide-react';
-import { trackEvent } from '../services/leadService';
+import { Phone, Mail, MapPin, ShieldCheck, Heart, Lock } from 'lucide-react';
 
 interface FooterProps {
-  onOpenPrivacy: () => void;
-  onOpenTerms: () => void;
+  onOpenPrivacy?: () => void;
+  onOpenTerms?: () => void;
   onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOpenAdmin }) => {
+export const Footer: React.FC<FooterProps> = ({
+  onOpenPrivacy,
+  onOpenTerms,
+  onOpenAdmin
+}) => {
   return (
-    <footer className="bg-[#050608] border-t border-white/10 text-[#9E9EA7] text-xs">
-      {/* Main Footer Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-          {/* Brand Identity */}
+    <footer className="bg-[#050608] border-t border-white/5 pt-16 pb-12 text-[#8E8E98] text-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/5">
+          {/* Brand Info */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 border border-[#C5A059] flex items-center justify-center bg-[#101217]">
-                <span className="font-cinzel text-base font-bold text-[#C5A059]">D</span>
+            <a href="#" className="flex items-center gap-3">
+              <div className="h-10 px-2.5 py-1 bg-white rounded-[2px] border border-[#E31E25]/50 flex items-center justify-center shadow-md">
+                <img
+                  src="/acs-logo-full.webp"
+                  alt="Akshar Car Spa"
+                  className="h-7 w-auto object-contain"
+                />
               </div>
-              <div>
-                <span className="font-cinzel text-base font-bold tracking-wider text-white block leading-none">
-                  D GLOSSY DEN
-                </span>
-                <span className="text-[8px] uppercase tracking-[0.25em] text-[#C5A059] block mt-1 font-semibold">
-                  Vadodara Detailing Studio
-                </span>
-              </div>
-            </div>
+            </a>
 
-            <p className="text-xs text-[#8A8A93] leading-relaxed max-w-sm">
-              Vadodara’s dedicated automotive studio for high-end paint restoration, certified self-healing paint protection films, and molecular ceramic coatings. Applied in a dust-controlled climate bay.
+            <p className="text-xs text-[#9E9EA7] leading-relaxed">
+              Akshar Car Spa (ACS) is Vadodara’s premier automotive surface preservation and detailing network. Delivering certified self-healing Paint Protection Film (PPF), 9H nano ceramic shields, concours skin restoration, and bespoke wrapping across 4 studios.
             </p>
 
-            <div className="pt-2 text-[11px] text-[#C5A059] flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
-              <span>Vadodara Studio Bay Standards: 200μ TPU • 9H Quartz</span>
+            <div className="flex items-center gap-4 pt-2">
+              <a
+                href="tel:+917778857187"
+                className="hover:text-white transition-colors flex items-center gap-1.5 font-mono"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#E31E25]" />
+                +91 77788 57187
+              </a>
+              <span className="text-[#353740]">•</span>
+              <a
+                href="mailto:aksharcarspa04@gmail.com"
+                className="hover:text-white transition-colors flex items-center gap-1.5"
+              >
+                <Mail className="w-3.5 h-3.5 text-[#E31E25]" />
+                aksharcarspa04@gmail.com
+              </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Navigation */}
           <div className="lg:col-span-2 space-y-3">
-            <h3 className="font-cinzel text-xs font-bold text-white uppercase tracking-wider">
-              Navigation
-            </h3>
-            <ul className="space-y-2 text-xs">
-              <li><a href="#services" className="hover:text-[#C5A059] transition-colors">Services</a></li>
-              <li><a href="#packages" className="hover:text-[#C5A059] transition-colors">Packages</a></li>
-              <li><a href="#gallery" className="hover:text-[#C5A059] transition-colors">Transformations</a></li>
-              <li><a href="#ppf" className="hover:text-[#C5A059] transition-colors">Paint Protection Film</a></li>
-              <li><a href="#ceramic" className="hover:text-[#C5A059] transition-colors">Ceramic Coating</a></li>
-              <li><a href="#about" className="hover:text-[#C5A059] transition-colors">Studio Ethos</a></li>
-              <li><a href="#faq" className="hover:text-[#C5A059] transition-colors">FAQ</a></li>
-              <li><a href="#location" className="hover:text-[#C5A059] transition-colors">Studio Location</a></li>
+            <h4 className="font-cinzel text-sm font-bold text-white uppercase tracking-wider">
+              Treatments
+            </h4>
+            <ul className="space-y-2">
+              <li><a href="#services" className="hover:text-[#FF3B44] transition-colors">Our Services</a></li>
+              <li><a href="#ppf" className="hover:text-[#FF3B44] transition-colors">ACS PPF Armor</a></li>
+              <li><a href="#ceramic" className="hover:text-[#FF3B44] transition-colors">Nano Ceramic 9H</a></li>
+              <li><a href="#gallery" className="hover:text-[#FF3B44] transition-colors">Transformations</a></li>
+              <li><a href="#packages" className="hover:text-[#FF3B44] transition-colors">Pricing Packages</a></li>
+              <li><a href="#faq" className="hover:text-[#FF3B44] transition-colors">FAQs</a></li>
             </ul>
           </div>
 
-          {/* Treatment Programs */}
-          <div className="lg:col-span-3 space-y-3">
-            <h3 className="font-cinzel text-xs font-bold text-white uppercase tracking-wider">
-              Specialized Programs
-            </h3>
-            <ul className="space-y-2 text-xs">
-              <li><a href="#ppf" className="hover:text-[#C5A059] transition-colors">Full Body Stealth PPF Wrap</a></li>
-              <li><a href="#ppf" className="hover:text-[#C5A059] transition-colors">Front High-Impact TPU Armor</a></li>
-              <li><a href="#ceramic" className="hover:text-[#C5A059] transition-colors">9H Multi-Layer Ceramic Coating</a></li>
-              <li><a href="#ceramic" className="hover:text-[#C5A059] transition-colors">Nano Graphene Surface Matrix</a></li>
-              <li><a href="#services" className="hover:text-[#C5A059] transition-colors">Concours 2-Stage Paint Correction</a></li>
-              <li><a href="#services" className="hover:text-[#C5A059] transition-colors">Interior Leather Steam Sanitation</a></li>
-            </ul>
-          </div>
-
-          {/* Contact Details & Neighborhood Service Area */}
-          <div className="lg:col-span-3 space-y-3">
-            <h3 className="font-cinzel text-xs font-bold text-white uppercase tracking-wider">
-              Studio Desk
-            </h3>
-            <div className="space-y-2.5 text-xs">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#C5A059] shrink-0 mt-0.5" />
-                <p>Near Gotri & Alkapuri Corridor, Vadodara, Gujarat 390007</p>
+          {/* 4 Vadodara Studios */}
+          <div className="lg:col-span-6 space-y-3">
+            <h4 className="font-cinzel text-sm font-bold text-white uppercase tracking-wider">
+              4 Studios in Vadodara, Gujarat
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[11px]">
+              <div className="p-2.5 bg-[#0A0C10] border border-white/5 space-y-1">
+                <span className="font-bold text-white block">📍 Karelibagh (Head Office)</span>
+                <p className="text-[#8E8E98] leading-tight">
+                  A-8, VIP Rd, opp. The Bright School, Amit Nagar, Karelibagh, Vadodara 390018
+                </p>
+                <span className="text-[#FF3B44] font-mono block">Ph: +91 77788 57187</span>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#C5A059] shrink-0" />
-                <a
-                  href="tel:+919825014820"
-                  onClick={() => trackEvent('phone_click', 'Footer Phone')}
-                  className="hover:text-white transition-colors"
-                >
-                  +91 98250 14820
-                </a>
+              <div className="p-2.5 bg-[#0A0C10] border border-white/5 space-y-1">
+                <span className="font-bold text-white block">📍 Akota Branch</span>
+                <p className="text-[#8E8E98] leading-tight">
+                  A-18, Shrenik Park Society, opp. Jain Mandir, Akota, Vadodara 390020
+                </p>
+                <span className="text-[#FF3B44] font-mono block">Ph: +91 85115 10254</span>
               </div>
 
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#C5A059] shrink-0" />
-                <a href="mailto:contact@dglossyden.in" className="hover:text-white transition-colors">
-                  contact@dglossyden.in
-                </a>
+              <div className="p-2.5 bg-[#0A0C10] border border-white/5 space-y-1">
+                <span className="font-bold text-white block">📍 Manjalpur Branch</span>
+                <p className="text-[#8E8E98] leading-tight">
+                  Shop 2, Samanvay Saptaarshi, Opp. Amarnath Puram, Manjalpur 390011
+                </p>
+                <span className="text-[#FF3B44] font-mono block">Ph: +91 85115 10254</span>
               </div>
-            </div>
 
-            <div className="pt-3">
-              <span className="text-[10px] uppercase font-bold text-[#C5A059] block mb-1">
-                Vadodara Service Areas:
-              </span>
-              <p className="text-[11px] text-[#7A7A85] leading-relaxed">
-                Alkapuri • Gotri • Vasna-Bhayli • Sevasi • Akota • Manjalpur • Karelibaug • Sama • Fatehgunj • Waghodia Road • Kalali
-              </p>
+              <div className="p-2.5 bg-[#0A0C10] border border-white/5 space-y-1">
+                <span className="font-bold text-white block">📍 New Manjalpur (Vadsar)</span>
+                <p className="text-[#8E8E98] leading-tight">
+                  16, Subh Enclave, Opp. Royal Green, Vadsar – Vishwamitri Rd 390010
+                </p>
+                <span className="text-[#FF3B44] font-mono block">Ph: +91 85115 10254</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#64646D]">
-          <p>© {new Date().getFullYear()} D Glossy Den. All rights reserved. Registered Automotive Studio in Vadodara, Gujarat.</p>
+        {/* Bottom Row */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#737380]">
+          <div>
+            &copy; {new Date().getFullYear()} Akshar Car Spa (ACS). All rights reserved. Registered trademark in India.
+          </div>
 
           <div className="flex items-center gap-6">
             <button
@@ -128,14 +124,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacy, onOpenTerms, onOp
               onClick={onOpenTerms}
               className="hover:text-white transition-colors cursor-pointer"
             >
-              Terms of Service
+              Terms &amp; Warranty
             </button>
             {onOpenAdmin && (
               <button
                 onClick={onOpenAdmin}
-                className="hover:text-[#DEC07E] text-[#8E919C] flex items-center gap-1 cursor-pointer"
+                className="hover:text-white transition-colors cursor-pointer flex items-center gap-1"
               >
-                <Lock className="w-3 h-3 text-[#C5A059]" />
+                <Lock className="w-3 h-3 text-[#E31E25]" />
                 <span>Staff Portal</span>
               </button>
             )}

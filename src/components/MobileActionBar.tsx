@@ -8,46 +8,40 @@ interface MobileActionBarProps {
 
 export const MobileActionBar: React.FC<MobileActionBarProps> = ({ onOpenBooking }) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-[#0A0C10]/95 backdrop-blur-xl border-t border-[#C5A059]/30 px-3 py-2.5 shadow-[0_-10px_25px_rgba(0,0,0,0.8)]">
-      <div className="grid grid-cols-3 gap-2">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#08090B]/95 backdrop-blur-xl border-t border-[#E31E25]/30 p-2.5 px-4 shadow-[0_-10px_25px_rgba(0,0,0,0.8)]">
+      <div className="flex items-center gap-2 max-w-lg mx-auto">
         {/* Direct Call */}
         <a
-          href="tel:+919825014820"
-          onClick={() => trackEvent('phone_click', 'Mobile Action Bar Call')}
-          className="h-11 flex flex-col items-center justify-center bg-[#12151D] border border-white/10 hover:border-[#C5A059] rounded-[2px] transition-colors"
+          href="tel:+917778857187"
+          onClick={() => trackEvent('phone_click', 'Mobile Action Bar')}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#161822] border border-white/10 hover:border-[#E31E25] text-white text-[11px] font-semibold uppercase tracking-wider rounded-[2px] transition-all"
         >
-          <Phone className="w-4 h-4 text-[#DEC07E]" />
-          <span className="text-[10px] font-bold uppercase tracking-wider text-white mt-0.5">
-            Call Studio
-          </span>
+          <Phone className="w-3.5 h-3.5 text-[#E31E25]" />
+          <span>Call</span>
         </a>
 
-        {/* WhatsApp Consultation */}
+        {/* Direct WhatsApp */}
         <a
-          href="https://wa.me/919825014820?text=Hello%20D%20Glossy%20Den%20Vadodara%2C%20I%20would%20like%20a%20quote%20for%20my%20car."
+          href="https://wa.me/918511510254?text=Hello%20Akshar%20Car%20Spa,%20I%20would%20like%20to%20book%20an%20appointment."
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => trackEvent('whatsapp_click', 'Mobile Action Bar WhatsApp')}
-          className="h-11 flex flex-col items-center justify-center bg-[#102015] border border-[#25D366]/40 hover:border-[#25D366] rounded-[2px] transition-colors"
+          onClick={() => trackEvent('whatsapp_click', 'Mobile Action Bar')}
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#0E1512] border border-[#25D366]/40 text-[#25D366] text-[11px] font-semibold uppercase tracking-wider rounded-[2px] transition-all"
         >
-          <MessageSquare className="w-4 h-4 text-[#25D366]" />
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#25D366] mt-0.5">
-            WhatsApp
-          </span>
+          <MessageSquare className="w-3.5 h-3.5" />
+          <span>WhatsApp</span>
         </a>
 
-        {/* Book Inspection CTA */}
+        {/* Book Appointment CTA */}
         <button
           onClick={() => {
-            trackEvent('cta_click', 'Mobile Action Bar Book Inspection');
+            trackEvent('cta_click', 'Mobile Action Bar Book');
             onOpenBooking();
           }}
-          className="h-11 flex flex-col items-center justify-center bg-gradient-to-r from-[#D8B46C] via-[#C5A059] to-[#B38D46] rounded-[2px] cursor-pointer shadow-md"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#E31E25] text-white text-[11px] font-bold uppercase tracking-wider rounded-[2px] shadow-lg shadow-[#E31E25]/30 cursor-pointer"
         >
-          <Calendar className="w-4 h-4 text-black" />
-          <span className="text-[10px] font-black uppercase tracking-wider text-black mt-0.5">
-            Get Quote
-          </span>
+          <Calendar className="w-3.5 h-3.5" />
+          <span>Book</span>
         </button>
       </div>
     </div>

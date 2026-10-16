@@ -1,96 +1,133 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, HelpCircle, ShieldCheck } from 'lucide-react';
-import { FAQItem } from '../types';
+import { ChevronDown, HelpCircle, Sparkles } from 'lucide-react';
 import { trackEvent } from '../services/leadService';
 
-const FAQS: FAQItem[] = [
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: 'PPF' | 'Ceramic & Detailing' | 'Car Wrapping' | 'Booking & Warranty';
+}
+
+const FAQS_DATA: FAQItem[] = [
   {
     id: 'faq-1',
-    category: 'Ceramic Coating',
-    question: 'How does 9H Ceramic Coating protect against Vadodara’s climate and water conditions?',
-    answer: 'Vadodara experiences intense UV sunlight in summer and notoriously hard borewell water that leaves stubborn calcium mineral deposits (water spots). Our multi-layer 9H nano-quartz ceramic coating creates a covalent molecular bond over the clear coat. It acts as an impenetrable sacrificial barrier that blocks UV rays from oxidizing the pigment and produces a 110° water contact angle, forcing mineral-heavy water to roll off rather than bake into the clear coat.'
+    category: 'PPF',
+    question: 'What is Paint Protection Film (PPF) and why is it important for my car?',
+    answer: 'PPF is an optical-grade transparent thermoplastic polyurethane (TPU) film that shields your car’s paint from stone chips, gravel rash, road tar, bug splatter, and harsh UV rays. Akshar Car Spa uses premium self-healing films with instant thermal memory to keep your car looking factory-new.'
   },
   {
     id: 'faq-2',
     category: 'PPF',
-    question: 'What is the key difference between Paint Protection Film (PPF) and Ceramic Coating?',
-    answer: 'PPF is an 8-mil (200-micron) physical thermoplastic polyurethane (TPU) armor designed to absorb physical impacts: high-speed stone chips on the expressway, flying gravel, and deep parking scratches. It also features heat-activated self-healing. Ceramic coating is a microscopic (2 to 3 micron) liquid chemical shield that delivers liquid gloss, hydrophobic beading, and chemical resistance, but cannot absorb heavy stone chips. Many clients choose PPF on high-impact zones (bonnet, bumper, fenders, mirrors) and ceramic coating over the rest.'
+    question: 'How long does PPF last?',
+    answer: 'Our premium ACS PPF films can last up to 10 years, depending on the film package and periodic maintenance checkups at our studio bays.'
   },
   {
     id: 'faq-3',
     category: 'PPF',
-    question: 'Do you use razor blades directly on my car during PPF installation?',
-    answer: 'Absolutely not. At D Glossy Den, we utilize certified computer-designed pattern templates tailored to your vehicle’s exact make, model, and year. The film is pre-plotted with extended wrapping margins so edges can be tucked neatly behind body panels and emblems without any blades touching factory paintwork.'
+    question: 'Will PPF affect the original paint or warranty of my car?',
+    answer: 'No, it protects the original factory paint and is completely non-invasive. When removed professionally, your paint remains 100% intact with zero adhesive residue, helping preserve optimal resale value.'
   },
   {
     id: 'faq-4',
-    category: 'Paint Correction',
-    question: 'Are swirl marks permanently removed, or does polishing just temporarily mask them with fillers?',
-    answer: 'We believe in true paint correction, not temporary glazes. We use precision compound and pad combinations with random orbital machines to level microscopic clear coat defects down to a uniform optical plane. Once corrected and wiped with solvent IPA, the paint reflections are permanent. Swirls will only return if the vehicle is later washed with dirty cloths or poor wash technique.'
+    category: 'PPF',
+    question: 'What’s the difference between PPF and ceramic coating?',
+    answer: 'Ceramic coating provides deep optical gloss, chemical resistance, and extreme water beading, but cannot stop high-speed flying stones. PPF is a physical 8-mil polyurethane armor that provides actual scratch and impact defense. We also offer combo packages combining both!'
   },
   {
     id: 'faq-5',
-    category: 'Maintenance & Booking',
-    question: 'How should I wash and maintain my car after detailing or coating?',
-    answer: 'We provide every client with a written wash protocol guide upon delivery. Key rules: avoid roadside dry wiping with dusting wands (jhadu/cloths), always use two buckets with grit guards and a dedicated pH-neutral shampoo, and dry using plush twist-loop microfiber drying towels. We also offer scheduled maintenance washes at our studio.'
+    category: 'PPF',
+    question: 'What is the cost of PPF installation in Vadodara?',
+    answer: 'Prices start from ₹20,000 for partial high-impact coverage (front bumper, bonnet, mirrors) and scale up to full body wraps depending on vehicle dimensions. Contact us for a free customized studio estimate.'
   },
   {
     id: 'faq-6',
-    category: 'Maintenance & Booking',
-    question: 'How long does a detailing job take, and do I need to book in advance?',
-    answer: 'Paint correction and ceramic coating require 24 to 48 hours for proper multi-stage polishing and infrared heat curing. Full-body PPF installation takes 3 to 4 working days for meticulous edge wrapping and moisture dry-out. Because our climate bay accommodates a limited number of vehicles to guarantee perfection, advance reservations are strongly recommended.'
+    category: 'Car Wrapping',
+    question: 'What is Multicolor Car Wrapping and how is it different from repainting?',
+    answer: 'Wrapping allows you to change your car’s color, texture, and aesthetic without permanent paint modification. It is 100% removable and simultaneously protects the underlying factory clear coat.'
   },
   {
     id: 'faq-7',
-    category: 'Maintenance & Booking',
-    question: 'Do you only detail luxury imports, or do you work on Indian and daily commuter cars?',
-    answer: 'We treat every car with identical craftsmanship. Whether you bring a Hyundai Creta, Mahindra XUV700, Tata Harrier, or a Mercedes-Benz, BMW, or Audi, each car receives micrometer paint logging, climate bay treatment, and dedicated master detailer attention.'
+    category: 'Car Wrapping',
+    question: 'How long does a car wrap last?',
+    answer: 'High-quality wrap films last up to 5 years with proper care. We utilize premium hybrid vinyl films with UV resistance formulated for Gujarat’s climate.'
+  },
+  {
+    id: 'faq-8',
+    category: 'Car Wrapping',
+    question: 'Can I wrap only selected parts of my car?',
+    answer: 'Yes! We execute custom accent wraps including dual-tone gloss black roofs, mirror caps, bonnets, spoiler accents, or full body transformations.'
+  },
+  {
+    id: 'faq-9',
+    category: 'Car Wrapping',
+    question: 'Will wrapping damage my original paint?',
+    answer: 'No, it is safe and shields your OEM clear coat from environmental fallout. When removed professionally at our studio, the factory paint underneath looks brand new.'
+  },
+  {
+    id: 'faq-10',
+    category: 'Booking & Warranty',
+    question: 'Why choose Akshar Car Spa over others in Vadodara?',
+    answer: 'We feature 4 studio locations across Vadodara, certified technicians, dust-free climate cleanrooms, a strict zero-queue appointment schedule with customer waiting lounge, and over 26,780 satisfied clients with 4.9+ Google ratings.'
+  },
+  {
+    id: 'faq-11',
+    category: 'Booking & Warranty',
+    question: 'How do I book a service or get a consultation?',
+    answer: 'You can call us directly at +91 77788 57187, message our WhatsApp desk at +91 85115 10254, visit our nearest studio in Karelibagh, Akota, or Manjalpur, or book through our online portal.'
+  },
+  {
+    id: 'faq-12',
+    category: 'Booking & Warranty',
+    question: 'Do you offer warranty or after-service support?',
+    answer: 'Yes! We provide up to 10 years warranty on premium PPF installations and up to 5 years on ceramic coatings, accompanied by periodic checkups and dedicated after-service support.'
   }
 ];
 
 export const FAQSection: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [openFaqId, setOpenFaqId] = useState<string | null>('faq-1');
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [expandedId, setExpandedId] = useState<string | null>('faq-1');
 
-  const categories = ['All', 'Ceramic Coating', 'PPF', 'Paint Correction', 'Maintenance & Booking'];
+  const categories = ['All', 'PPF', 'Car Wrapping', 'Booking & Warranty'];
 
-  const filteredFaqs = selectedCategory === 'All'
-    ? FAQS
-    : FAQS.filter((f) => f.category === selectedCategory);
+  const filteredFaqs =
+    activeCategory === 'All'
+      ? FAQS_DATA
+      : FAQS_DATA.filter((f) => f.category === activeCategory);
 
-  const toggleFaq = (id: string) => {
-    setOpenFaqId(openFaqId === id ? null : id);
+  const toggleAccordion = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
     trackEvent('cta_click', `FAQ Toggle: ${id}`);
   };
 
   return (
-    <section id="faq" className="py-24 bg-[#0A0C10] border-t border-white/5 relative">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-24 bg-[#08090B] relative">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#C5A059] font-semibold mb-3 flex items-center justify-center gap-2">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#151822] border border-[#E31E25]/40 text-[#FF3B44] text-[11px] font-semibold uppercase tracking-widest mb-3">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Clarity & Technical Guidance</span>
-          </p>
-          <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F5F5F7] tracking-tight">
+            <span>Got Questions? We Have Answers</span>
+          </div>
+          <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#9E9EA7]">
-            Everything you need to know about automotive surface preservation, film warranties, curing times, and daily car care in Vadodara.
+            Everything you need to know about PPF protection, ceramic coatings, wrapping, and studio appointments at Akshar Car Spa.
           </p>
         </div>
 
-        {/* Categories Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+        {/* Category Filter */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-[2px] transition-all cursor-pointer border ${
-                selectedCategory === cat
-                  ? 'bg-[#181B24] text-[#DEC07E] border-[#C5A059]'
-                  : 'bg-[#101217] text-[#8E919C] border-white/5 hover:border-white/20 hover:text-white'
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-[2px] transition-all cursor-pointer border ${
+                activeCategory === cat
+                  ? 'bg-[#E31E25] text-white border-[#FF3B44] shadow-md'
+                  : 'bg-[#0E1015] text-[#8E919C] border-white/5 hover:border-white/20 hover:text-white'
               }`}
             >
               {cat}
@@ -98,63 +135,45 @@ export const FAQSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Accordion List */}
-        <div className="space-y-3.5">
+        {/* FAQ Accordion List */}
+        <div className="space-y-3">
           {filteredFaqs.map((faq) => {
-            const isOpen = openFaqId === faq.id;
+            const isOpen = expandedId === faq.id;
             return (
               <div
                 key={faq.id}
-                className="luxury-card border border-white/10 overflow-hidden transition-colors"
+                className="luxury-card border border-white/10 hover:border-[#E31E25]/40 transition-colors overflow-hidden"
               >
                 <button
-                  onClick={() => toggleFaq(faq.id)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-white/[0.02] transition-colors cursor-pointer"
-                  aria-expanded={isOpen}
+                  onClick={() => toggleAccordion(faq.id)}
+                  className="w-full p-5 text-left flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
                 >
-                  <span className="font-cinzel text-sm sm:text-base font-bold text-[#F5F5F7] leading-snug">
+                  <span className="font-cinzel text-sm sm:text-base font-bold text-white">
                     {faq.question}
                   </span>
-                  <div className={`p-1 text-[#C5A059] transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180' : ''}`}>
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-[#E31E25] transition-transform duration-300 shrink-0 ${
+                      isOpen ? 'rotate-180 text-[#FF3B44]' : ''
+                    }`}
+                  />
                 </button>
 
-                <AnimatePresence initial={false}>
+                <AnimatePresence>
                   {isOpen && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="px-5 pb-5 text-xs sm:text-sm text-[#B0B3BE] leading-relaxed border-t border-white/5 pt-3"
                     >
-                      <div className="px-6 pb-6 pt-1 text-xs sm:text-sm text-[#9E9EA7] leading-relaxed border-t border-white/5">
-                        <p>{faq.answer}</p>
-                      </div>
+                      {faq.answer}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
             );
           })}
-        </div>
-
-        {/* Still have questions banner */}
-        <div className="mt-12 p-6 bg-[#101217] border border-[#C5A059]/30 text-center">
-          <p className="font-cinzel text-base font-bold text-white mb-2">
-            Have a Specific Question About Your Vehicle’s Paint Condition?
-          </p>
-          <p className="text-xs text-[#9E9EA7] max-w-xl mx-auto mb-4">
-            Connect directly with our detailing technicians in Vadodara for guidance or bring your car to our studio for a complimentary paint inspection.
-          </p>
-          <a
-            href="https://wa.me/919825014820?text=Hello%20D%20Glossy%20Den%2C%20I%20have%20a%20question%20regarding%20detailing%20my%20car"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-luxury-primary text-xs inline-flex items-center gap-2"
-          >
-            <span>Ask Us on WhatsApp</span>
-          </a>
         </div>
       </div>
     </section>
